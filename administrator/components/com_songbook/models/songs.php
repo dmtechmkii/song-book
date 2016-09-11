@@ -58,7 +58,7 @@ class SongbookModelSongs extends JModelList
     $userId = $app->getUserStateFromRequest($this->context.'.filter.user_id', 'filter_user_id');
     $this->setState('filter.user_id', $userId);
 
-    $published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published');
+    $published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '');
     $this->setState('filter.published', $published);
 
     $categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
