@@ -10,7 +10,8 @@ defined('_JEXEC') or die; // No direct access.
 
 jimport('joomla.application.component.controller');
 
-/* TEST SHARING GITHUB */
+/* TEST SHARING GITHUB 1 */
+/* TEST SHARING GITHUB 2 */
 class SongbookController extends JControllerLegacy
 {
   public function display($cachable = false, $urlparams = false) 
