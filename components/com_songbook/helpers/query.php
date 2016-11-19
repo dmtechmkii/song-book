@@ -103,11 +103,11 @@ class SongbookHelperQuery
 	      break;
 
       case 'author' :
-	      $orderby = 's.author';
+	      $orderby = 'author';
 	      break;
 
       case 'rauthor' :
-	      $orderby = 's.author DESC';
+	      $orderby = 'author DESC';
 	      break;
 
       default :

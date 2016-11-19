@@ -65,8 +65,8 @@ class SongbookViewCategory extends JViewCategory
     // Prepare the data
     // Get the metrics for the structural page layout.
     $params     = $this->params;
-    $numLeading = $params->def('num_leading_articles', 1);
-    $numIntro   = $params->def('num_intro_articles', 4);
+    $numLeading = $params->def('num_leading_songs', 1);
+    $numIntro   = $params->def('num_intro_songs', 4);
     $numLinks   = $params->def('num_links', 4);
 
     //Get the user object and the current url, (needed in the song edit layout).
@@ -89,7 +89,6 @@ class SongbookViewCategory extends JViewCategory
     // If it is the active menu item, then the view and category id will match
     $app = JFactory::getApplication();
     $active = $app->getMenu()->getActive();
-    $menus = $app->getMenu();
 
     //The category has no itemId and thus is not linked to any menu item. 
     if((!$active) || ((strpos($active->link, 'view=category') === false) ||
@@ -135,8 +134,34 @@ class SongbookViewCategory extends JViewCategory
       }
     }
 
+    //Set the name of the active layout in params, (needed for the filter ordering layout).
+    $this->params->set('active_layout', $this->getLayout());
+    //Set the filter_ordering parameter for the layout.
+    $this->filter_ordering = $this->state->get('list.filter_ordering');
+
+    $this->nowDate = JFactory::getDate('now', JFactory::getConfig()->get('offset'))->toSql(true);
+
+    $this->prepareDocument();
+
+    //$this->setDocument();
+
+    return parent::display($tpl);
+  }
+
+
+  /**
+   * Method to prepares the document
+   *
+   * @return  void
+   *
+   * @since   3.2
+   */
+  protected function prepareDocument()
+  {
+    $app = JFactory::getApplication();
     // Because the application sets a default page title,
     // we need to get it from the menu item itself
+    $menus = $app->getMenu();
     $menu = $menus->getActive();
 
     if($menu) {
@@ -144,8 +169,6 @@ class SongbookViewCategory extends JViewCategory
     }
 
     $title = $this->params->get('page_title', '');
-
-    $id = (int) @$menu->query['id'];
 
     // Check for empty title and add site name if param is set
     if(empty($title)) {
@@ -158,6 +181,7 @@ class SongbookViewCategory extends JViewCategory
       $title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
     }
 
+    //If no title is find, set it to the category title. 
     if(empty($title)) {
       $title = $this->category->title;
     }
@@ -198,16 +222,7 @@ class SongbookViewCategory extends JViewCategory
       }
     }
 
-    //Set the name of the active layout in params, (needed for the filter ordering layout).
-    $this->params->set('active_layout', $this->getLayout());
-    //Set the filter_ordering parameter for the layout.
-    $this->filter_ordering = $this->state->get('list.filter_ordering');
-
-    $this->nowDate = JFactory::getDate('now', JFactory::getConfig()->get('offset'))->toSql(true);
-
-    //$this->setDocument();
-
-    return parent::display($tpl);
+    return;
   }
 
 

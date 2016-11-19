@@ -24,6 +24,14 @@ if($saveOrder) {
   $saveOrderingUrl = 'index.php?option=com_songbook&task=songs.saveOrderAjax&tmpl=component';
   JHtml::_('sortablelist.sortable', 'songList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
+// Check if only the tag filter is selected.
+$tagFilter = $tagId = 0;
+if (SongbookHelper::checkSelectedFilter('tag', true)) {
+  $post = JFactory::getApplication()->input->post->getArray();
+  $tagId = $post['filter']['tag'];
+  $tagFilter = true;
+}
 ?>
 
 <script type="text/javascript">
@@ -112,9 +120,19 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
       $canEditOwn = $user->authorise('core.edit.own', 'com_songbook.song.'.$item->id) && $item->created_by == $userId;
       $canCheckin = $user->authorise('core.manage','com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
       $canChange = ($user->authorise('core.edit.state','com_songbook.song.'.$item->id) && $canCheckin) || $canEditOwn; 
+
+      // Set the sortable group id according to the
+      // filter selection.
+
+      // Group id by default.
+      $sortableGroupId = $item->catid;
+      if ($tagFilter) {
+	// Group by tag id.
+	$sortableGroupId = $tagId;
+      }
       ?>
 
-      <tr class="row<?php echo $i % 2; ?>">
+      <tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $sortableGroupId; ?>">
 	<td class="order nowrap center hidden-phone">
 	  <?php
 	  $iconClass = '';

@@ -86,8 +86,7 @@ class SongbookViewTag extends JViewLegacy
 
   public function display($tpl = null)
   {
-    $app    = JFactory::getApplication();
-    $user   = JFactory::getUser();
+    $app = JFactory::getApplication();
     $this->params = $app->getParams();
 
     // Get some data from the models
@@ -98,15 +97,32 @@ class SongbookViewTag extends JViewLegacy
     $this->pagination = $this->get('Pagination');
     $this->tagMaxLevel = $this->params->get('tag_max_level');
 
+    // Check for errors.
+    if(count($errors = $this->get('Errors'))) {
+      JError::raiseError(500, implode("\n", $errors));
+      return false;
+    }
+
+    if($this->tag == false) {
+      return JError::raiseError(404, JText::_('COM_SONGBOOK_TAG_NOT_FOUND'));
+    }
+
+    //Check whether tag access level allows access.
+    $this->user = JFactory::getUser();
+    $groups = $this->user->getAuthorisedViewLevels();
+    if(!in_array($this->tag->access, $groups)) {
+      return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+    }
+
     // Prepare the data
     // Get the metrics for the structural page layout.
     $numLeading = $this->params->def('num_leading_songs', 1);
     $numIntro   = $this->params->def('num_intro_songs', 4);
     $numLinks   = $this->params->def('num_links', 4);
 
-    //Get the user object and the current url, (needed in the song edit layout).
-    $this->user = JFactory::getUser();
+    //Get the current url, (needed in the song edit layout).
     $this->uri = JUri::getInstance();
+    $this->nowDate = JFactory::getDate('now', JFactory::getConfig()->get('offset'))->toSql(true);
 
     // Prepare the data.
     // Compute the song slugs.
@@ -117,6 +133,10 @@ class SongbookViewTag extends JViewLegacy
       // No link for ROOT category 
       if($item->parent_alias == 'root') {
 	$item->parent_slug = null;
+      }
+
+      if($item->publish_up == 0) {
+	$item->publish_up = $this->nowDate;
       }
     }
 
@@ -170,8 +190,34 @@ class SongbookViewTag extends JViewLegacy
       }
     }
 
+
+    //Set the name of the active layout in params, (needed for the filter ordering layout).
+    $this->params->set('active_layout', $this->getLayout());
+    //Set the filter_ordering parameter for the layout.
+    $this->filter_ordering = $this->state->get('list.filter_ordering');
+
+//file_put_contents('debog_file.txt', print_r($this->params, true));
+    $this->prepareDocument();
+
+    //$this->setDocument();
+
+    return parent::display($tpl);
+  }
+
+
+  /**
+   * Method to prepares the document
+   *
+   * @return  void
+   *
+   * @since   3.2
+   */
+  protected function prepareDocument()
+  {
+    $app = JFactory::getApplication();
     // Because the application sets a default page title,
     // we need to get it from the menu item itself
+    $menus = $app->getMenu();
     $menu = $menus->getActive();
 
     if($menu) {
@@ -179,8 +225,6 @@ class SongbookViewTag extends JViewLegacy
     }
 
     $title = $this->params->get('page_title', '');
-
-    $id = (int) @$menu->query['id'];
 
     // Check for empty title and add site name if param is set
     if(empty($title)) {
@@ -221,11 +265,11 @@ class SongbookViewTag extends JViewLegacy
       $this->tag->metadata = new Registry($this->tag->metadata);
     }
 
-    /*if(($app->get('MetaAuthor') == '1') && $this->tag->get('author', '')) {
-      $this->document->setMetaData('author', $this->tag->get('author', ''));
-    }*/
-
     $mdata = $this->tag->metadata->toArray();
+
+    if(($app->get('MetaAuthor') == '1') && $mdata['author']) {
+      $this->document->setMetaData('author', $mdata['author']);
+    }
 
     foreach($mdata as $k => $v) {
       if($v) {
@@ -233,18 +277,9 @@ class SongbookViewTag extends JViewLegacy
       }
     }
 
-    //Set the name of the active layout in params, (needed for the filter ordering layout).
-    $this->params->set('active_layout', $this->getLayout());
-    //Set the filter_ordering parameter for the layout.
-    $this->filter_ordering = $this->state->get('list.filter_ordering');
-
-    $this->nowDate = JFactory::getDate('now', JFactory::getConfig()->get('offset'))->toSql(true);
-
-//file_put_contents('debog_file.txt', print_r($this->params, true));
-    //$this->setDocument();
-
-    return parent::display($tpl);
+    return;
   }
+
 
 
   protected function setDocument() 

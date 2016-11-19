@@ -143,6 +143,11 @@ class SongbookModelTag extends JModelList
   {
     // Invoke the parent getItems method (using the getListQuery method) to get the main list
     $items = parent::getItems();
+
+    if(!$items) {
+      return array();
+    }
+
     $input = JFactory::getApplication()->input;
 
     //Get some user data.
@@ -283,7 +288,7 @@ class SongbookModelTag extends JModelList
 
     // Join on tag table.
     $query->select('ta.title AS tag_title, ta.alias AS tag_alias')
-	  ->join('LEFT', '#__tags AS ta on ta.id='.(int)$this->getState('tag.id'))
+	  ->join('LEFT', '#__tags AS ta ON ta.id='.(int)$this->getState('tag.id'))
 	  //Ensure the current tag is published.
 	  ->where('ta.published=1');
 
@@ -294,7 +299,9 @@ class SongbookModelTag extends JModelList
 
     // Join on category table.
     $query->select('ca.title AS category_title, ca.alias AS category_alias, ca.access AS category_access')
-	  ->join('LEFT', '#__categories AS ca on ca.id = s.catid');
+	  ->join('LEFT', '#__categories AS ca ON ca.id = s.catid')
+	  //Ensure the category the song is in is published.
+	  ->where('ca.published=1');
 
     // Join over the categories to get parent category title.
     $query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
@@ -309,6 +316,9 @@ class SongbookModelTag extends JModelList
     $query->join('LEFT', '#__viewlevels AS al ON al.id = s.access');
 
     // Filter by access level.
+    //Note: if($access = $this->getState('filter.access')) is a shorthand for:
+    //      $access = $this->getState('filter.access')    
+    //      if($access) { ...
     if($access = $this->getState('filter.access')) {
       $query->where('s.access IN ('.$groups.')')
 	    //Category access is also taken in account.
@@ -365,6 +375,18 @@ class SongbookModelTag extends JModelList
     //If the end user has define an order, we override the ordering by default.
     if(!empty($filterOrdering)) {
       $orderBy = SongbookHelperQuery::orderbySecondary($filterOrdering, $songOrderDate);
+    }
+
+    //Ordering songs against the song/tag mapping table.
+    if(preg_match('#^tm.ordering( DESC)?$#', $orderBy, $matches)) {
+      //Note: Songs with NULL order value are placed at the end of the list.
+      $query->select('ISNULL(tm.ordering), tm.ordering AS tm_ordering');
+      $orderBy = 'ISNULL(tm.ordering) ASC, tm_ordering';
+
+      //Check for DESC direction.
+      if(isset($matches[1])) {
+	$orderBy .= $matches[1]; 
+      }
     }
 
     $query->order($orderBy);
@@ -502,9 +524,9 @@ class SongbookModelTag extends JModelList
 
 
   /**
-   * Increment the hit counter for the category.
+   * Increment the hit counter for the tag.
    *
-   * @param   int  $pk  Optional primary key of the category to increment.
+   * @param   int  $pk  Optional primary key of the tag to increment.
    *
    * @return  boolean True if successful; false otherwise and internal error set.
    *
@@ -516,9 +538,9 @@ class SongbookModelTag extends JModelList
     $hitcount = $input->getInt('hitcount', 1);
 
     if($hitcount) {
-      $pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
+      $pk = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 
-      $table = JTable::getInstance('Category', 'JTable');
+      $table = JTable::getInstance('Tag', 'JTable');
       $table->load($pk);
       $table->hit($pk);
     }

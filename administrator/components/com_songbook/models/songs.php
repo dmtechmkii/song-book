@@ -58,7 +58,7 @@ class SongbookModelSongs extends JModelList
     $userId = $app->getUserStateFromRequest($this->context.'.filter.user_id', 'filter_user_id');
     $this->setState('filter.user_id', $userId);
 
-    $published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '');
+    $published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published');
     $this->setState('filter.published', $published);
 
     $categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
@@ -192,14 +192,15 @@ class SongbookModelSongs extends JModelList
     $orderDirn = $this->state->get('list.direction'); //asc or desc
 
     //In case only the tag filter is selected we want the songs to be displayed according
-    //to the our mapping table ordering.
+    //to the mapping table ordering.
     if(is_numeric($tagId) && SongbookHelper::checkSelectedFilter('tag', true) && $orderCol == 's.ordering') {
       //Join over the song/tag mapping table.
-      $query->select('tm.ordering AS tm_ordering')
+      $query->select('ISNULL(tm.ordering), tm.ordering AS tm_ordering')
 	    ->join('LEFT', '#__songbook_song_tag_map AS tm ON s.id=tm.song_id AND tm.tag_id='.(int)$tagId);
 
       //Switch to the mapping table ordering.
-      $orderCol = 'tm_ordering';
+      //Note: Songs with NULL ordering are placed at the end of the list.
+      $orderCol = 'ISNULL(tm.ordering) ASC, tm_ordering';
     }
 
     $query->order($db->escape($orderCol.' '.$orderDirn));

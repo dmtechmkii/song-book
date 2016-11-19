@@ -43,7 +43,7 @@ DROP TABLE IF EXISTS `#__songbook_song_tag_map`;
 CREATE TABLE `#__songbook_song_tag_map` (
   `song_id` INT UNSIGNED NOT NULL DEFAULT 0 ,
   `tag_id` INT UNSIGNED NOT NULL DEFAULT 0 ,
-  `ordering` INT NOT NULL DEFAULT 0 ,
+  `ordering` INT NULL DEFAULT NULL ,
   INDEX `idx_song_id` (`song_id` ASC) ,
   INDEX `idx_cat_id` (`tag_id` ASC) )
 ENGINE = MyISAM DEFAULT CHARSET=utf8;
