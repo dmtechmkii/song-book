@@ -1,7 +1,7 @@
 <?php
 /**
- * @package JooShop
- * @copyright Copyright (c)2012 - 2015 Lucas Sanner
+ * @package SongBook
+ * @copyright Copyright (c) 2016 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 

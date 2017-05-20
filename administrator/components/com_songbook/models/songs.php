@@ -58,7 +58,7 @@ class SongbookModelSongs extends JModelList
     $userId = $app->getUserStateFromRequest($this->context.'.filter.user_id', 'filter_user_id');
     $this->setState('filter.user_id', $userId);
 
-    $published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published');
+    $published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '');
     $this->setState('filter.published', $published);
 
     $categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
@@ -102,6 +102,7 @@ class SongbookModelSongs extends JModelList
     //Create a new JDatabaseQuery object.
     $db = $this->getDbo();
     $query = $db->getQuery(true);
+    $user = JFactory::getUser();
 
     // Select the required fields from the table.
     $query->select($this->getState('list.select', 's.id,s.title,s.alias,s.created,s.published,s.catid,s.hits,'.
@@ -154,6 +155,13 @@ class SongbookModelSongs extends JModelList
     // Filter by access level.
     if($access = $this->getState('filter.access')) {
       $query->where('s.access='.(int) $access);
+    }
+
+    // Filter by access level on categories.
+    if(!$user->authorise('core.admin')) {
+      $groups = implode(',', $user->getAuthorisedViewLevels());
+      $query->where('s.access IN ('.$groups.')');
+      $query->where('ca.access IN ('.$groups.')');
     }
 
     //Filter by publication state.
