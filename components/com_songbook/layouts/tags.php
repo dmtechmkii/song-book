@@ -8,7 +8,6 @@
 defined('JPATH_BASE') or die;
 
 $tags = $displayData['item']->tags->itemTags;
-
 //Check for the id of the current tag (meaning we're in tag view).
 $tagId = 0;
 if(isset($displayData['item']->tag_id)) {
@@ -22,7 +21,7 @@ if(isset($displayData['item']->tag_id)) {
     <?php if($tagId == $tag->tag_id) : ?> 
       <span class="label label-warning"><?php echo $this->escape($tag->title); ?></span>
   <?php else : ?> 
-      <a href="<?php echo JRoute::_(SongbookHelperRoute::getTagRoute($tag->tag_id, $tag->path));?>" class="label label-success"><?php echo $this->escape($tag->title); ?></a>
+      <a href="<?php echo JRoute::_(SongbookHelperRoute::getTagRoute($tag->tag_id.':'.$tag->alias, $tag->path));?>" class="label label-success"><?php echo $this->escape($tag->title); ?></a>
   <?php endif; ?> 
   </li>
 <?php endforeach; ?>

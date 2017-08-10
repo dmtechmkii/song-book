@@ -5,10 +5,11 @@
  * @license GNU General Public License version 3, or later
  */
 
-
 defined('_JEXEC') or die;
 
 jimport('joomla.application.categories');
+
+//Note: More information about router here: https://docs.joomla.org/Supporting_SEF_URLs_in_your_component
 
 /**
  * Build the route for the com_songbook component
@@ -31,14 +32,12 @@ function SongbookBuildRoute(&$query)
     unset($query['id']);
   }
 
-  if(isset($query['catid'])) {
-    $segments[] = $query['catid'];
-    unset($query['catid']);
-  }
-
   if(isset($query['layout'])) {
     unset($query['layout']);
   }
+
+  unset($query['catid']);
+  unset($query['tagid']);
 
   return $segments;
 }
@@ -74,8 +73,6 @@ function SongbookParseRoute($segments)
 	   $vars['view'] = 'song';
 	   $id = explode(':', $segments[1]);
 	   $vars['id'] = (int)$id[0];
-	   $catid = explode(':', $segments[2]);
-	   $vars['catid'] = (int)$catid[0];
 	   break;
     case 'form':
 	   $vars['view'] = 'form';

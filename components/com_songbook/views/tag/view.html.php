@@ -138,6 +138,16 @@ class SongbookViewTag extends JViewLegacy
       if($item->publish_up == 0) {
 	$item->publish_up = $this->nowDate;
       }
+
+      //Gets all the tag ids linked to the item.
+      $tagIds = array();
+      foreach($item->tags->itemTags as $itemTag) {
+	if($itemTag->published == 1) {
+	  $tagIds[] = $itemTag->id;
+	}
+      }
+
+      $item->tag_ids = $tagIds;
     }
 
     // Check for layout override only if this is not the active menu item
@@ -196,7 +206,6 @@ class SongbookViewTag extends JViewLegacy
     //Set the filter_ordering parameter for the layout.
     $this->filter_ordering = $this->state->get('list.filter_ordering');
 
-//file_put_contents('debog_file.txt', print_r($this->params, true));
     $this->prepareDocument();
 
     //$this->setDocument();

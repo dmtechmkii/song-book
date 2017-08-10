@@ -24,22 +24,27 @@ abstract class SongbookHelperRoute
   /**
    * @param   integer  The route of the song
    */
-  public static function getSongRoute($id, $catid, $language = 0)
+  public static function getSongRoute($id, $itemid, $language = 0, $tagView = false)
   {
     $needles = array('song' => array((int) $id));
 
     //Create the link
     $link = 'index.php?option=com_songbook&view=song&id='.$id;
 
-    if($catid > 1) {
+    if(!$tagView && $itemid > 1) {
       $categories = JCategories::getInstance('Songbook');
-      $category = $categories->get($catid);
+      $category = $categories->get($itemid);
 
       if($category) {
 	$needles['category'] = array_reverse($category->getPath());
 	$needles['categories'] = $needles['category'];
-	$link .= '&catid='.$catid;
+	$link .= '&catid='.$itemid;
       }
+    }
+    //When the tag view is used, $itemid is passed as an array with the tag ids linked to the song.
+    elseif($tagView && count($itemid) > 1) {
+      $needles['tag'] = $itemid;
+      $link .= '&tagid='.$itemid[0];
     }
 
     if($language && $language != "*" && JLanguageMultilang::isEnabled()) {
@@ -86,10 +91,13 @@ abstract class SongbookHelperRoute
     if($catid instanceof JCategoryNode) {
       $id = $catid->id;
       $category = $catid;
+      $alias = $catid->alias;
     }
     else {
       $id = (int) $catid;
       $category = JCategories::getInstance('Songbook')->get($id);
+      $parts = explode(':', $catid);
+      $alias = $parts[1];
     }
 
     if($id < 1 || !($category instanceof JCategoryNode)) {
@@ -99,7 +107,7 @@ abstract class SongbookHelperRoute
       $needles = array();
 
       // Create the link
-      $link = 'index.php?option=com_songbook&view=category&id='.$id;
+      $link = 'index.php?option=com_songbook&view=category&id='.$id.':'.$alias;
 
       $catids = array_reverse($category->getPath());
       $needles['category'] = $catids;
@@ -125,7 +133,7 @@ abstract class SongbookHelperRoute
 
   public static function getTagRoute($id, $path, $language = 0)
   {
-    if($id < 1) {
+    if((int)$id < 1) {
       $link = '';
     }
     else {
@@ -152,14 +160,19 @@ abstract class SongbookHelperRoute
 	//Gets the parent item ids. 
 	$query->select('id')
 	      ->from('#__tags')
-	      ->where('path IN('.$in.')')
-	      ->order('level DESC');
+	      ->where('path IN('.$in.') AND published=1');
+
+	if($language && $language != "*" && JLanguageMultilang::isEnabled()) {
+	  $query->where('language='.$db->quote($language));
+	}
+
+	      $query->order('level DESC');
 	$db->setQuery($query);
 	$ids = $db->loadColumn();
       }
       else {
 	//The tag is a first level item therefore it has no parent.
-	$ids[] = $id;
+	$ids[] = (int)$id;
       }
 
       $needles = array('tag'  => $ids);
@@ -243,7 +256,6 @@ abstract class SongbookHelperRoute
       }
     }
 
-//file_put_contents('debog_file.txt', print_r(self::$lookup, true), FILE_APPEND);
     if($needles) {
       foreach($needles as $view => $ids) {
 	if(isset(self::$lookup[$language][$view])) {

@@ -19,8 +19,15 @@ $nowDate = $displayData['now_date'];
   <div class="page-header">
     <?php if($params->get('show_title')) : ?>
 	    <h2>
-	      <?php if($params->get('link_title') && $params->get('access-view')) : ?>
-		<a href="<?php echo JRoute::_(SongbookHelperRoute::getSongRoute($item->slug, $item->catid)); ?>">
+	      <?php if($params->get('link_title') && $params->get('access-view')) :
+
+		    $link = JRoute::_(SongbookHelperRoute::getSongRoute($item->slug, $item->catid, $item->language));
+		    //If the tag view is used the getSongRoute function calling is slighly different.
+		    if(isset($item->tag_ids)) {
+		      $link = JRoute::_(SongbookHelperRoute::getSongRoute($item->slug, $item->tag_ids, $item->language, true));
+		    }
+	      ?>
+		<a href="<?php echo $link; ?>">
 		      <?php echo $this->escape($item->title); ?></a>
 	      <?php else : ?>
 		<?php echo $this->escape($item->title); ?>

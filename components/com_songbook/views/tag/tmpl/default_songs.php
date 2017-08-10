@@ -41,13 +41,13 @@ JHtml::_('behavior.framework');
 		$active = $menu->getActive();
 		$itemId = $active->id;
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
-		$returnURL = JRoute::_(SongbookHelperRoute::getSongRoute($item->slug, $item->catid));
+		$returnURL = JRoute::_(SongbookHelperRoute::getSongRoute($item->slug, $item->tag_ids, $item->language, true));
 		$link = new JUri($link1);
 		$link->setVar('return', base64_encode($returnURL));
 	      endif; ?>
 
 	<?php if($item->params->get('access-view')) : //Set the link to the song page.
-	      $link = JRoute::_(SongbookHelperRoute::getSongRoute($item->slug, $item->catid));
+	      $link = JRoute::_(SongbookHelperRoute::getSongRoute($item->slug, $item->tag_ids, $item->language, true));
 	  endif; ?>
 
 	  <a href="<?php echo $link;?>"><?php echo $this->escape($item->title); ?></a>
