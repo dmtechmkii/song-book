@@ -280,7 +280,7 @@ class SongbookModelTag extends JModelList
     $query->select($this->getState('list.select', 's.id,s.title,s.alias,s.intro_text,s.full_text,s.catid,'.
 	                           'tm.tag_id,s.published,s.checked_out,s.checked_out_time,s.created,'.
 				   's.created_by,s.access,s.params,s.metadata,s.metakey,s.metadesc,s.hits,'.
-				   's.publish_up,s.publish_down,s.language,s.modified,s.modified_by'))
+				   's.main_tag_id,s.publish_up,s.publish_down,s.language,s.modified,s.modified_by'))
 	  ->from($db->quoteName('#__songbook_song').' AS s')
 	  ->join('LEFT', '#__songbook_song_tag_map AS tm ON s.id=tm.song_id')
 	  //Display songs labeled with the current tag.

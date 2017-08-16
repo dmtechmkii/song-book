@@ -10,6 +10,7 @@ CREATE TABLE `#__songbook_song` (
   `full_text` MEDIUMTEXT NULL ,
   `published` TINYINT NOT NULL DEFAULT 0 ,
   `catid` INT UNSIGNED NOT NULL ,
+  `main_tag_id` INT UNSIGNED NOT NULL ,
   `checked_out` INT UNSIGNED NOT NULL DEFAULT 0 ,
   `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `ordering` INT NOT NULL DEFAULT 0 ,
