@@ -7,11 +7,27 @@
     <license>GNU General Public License version 2 or later http://www.gnu.org/licenses/gpl.html</license>
     <authorEmail>lucas.sanner@gmail.com</authorEmail>
     <version>1.0</version>
-    <description>PLG_CONTENT_SONGBOOK_XML_DESCRIPTION</description>
+    <description>PLG_SONGBOOK_XML_DESCRIPTION</description>
 	<files>
 	    <filename plugin="songbook">songbook.php</filename>
 	    <filename>index.html</filename>
 	    <folder>language</folder>
 	</files>
+	<config>
+	    <fields name="params">
+		<fieldset name="basic">
 
+		    <field name="tags_on_the_fly"
+			   type="radio"
+			   default="0"
+			   class="btn-group btn-group-yesno"
+			   label="PLG_SONGBOOK_FIELD_TAGS_ON_THE_FLY_LABEL"
+			   description="PLG_SONGBOOK_FIELD_TAGS_ON_THE_FLY_DESC">
+			   <option value="1">JYES</option>
+			   <option value="0">JNO</option>
+		    </field>
+
+		</fieldset>
+	    </fields>
+	</config>
 </extension>

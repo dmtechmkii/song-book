@@ -101,7 +101,8 @@ class SongbookModelSong extends JModelItem
       $data = $db->loadObject();
 
       if(is_null($data)) {
-	return JError::raiseError(404, JText::_('COM_SONGBOOK_ERROR_SONG_NOT_FOUND'));
+	JFactory::getApplication()->enqueueMessage(JText::_('COM_SONGBOOK_ERROR_SONG_NOT_FOUND'), 'error');
+	return false;
       }
 
       // Convert parameter fields to objects.

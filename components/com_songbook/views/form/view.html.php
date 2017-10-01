@@ -27,7 +27,7 @@ class SongbookViewForm extends JViewLegacy
 
     //Redirect unregistered users to the login page.
     if($user->guest) {
-      $app =& JFactory::getApplication();
+      $app = JFactory::getApplication();
       $app->redirect('index.php?option=com_users&view=login'); 
       return true;
     }
@@ -48,13 +48,13 @@ class SongbookViewForm extends JViewLegacy
     }
 
     if($authorised !== true) {
-      JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+      $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
       return false;
     }
 
     // Check for errors.
     if(count($errors = $this->get('Errors'))) {
-      JError::raiseWarning(500, implode("\n", $errors));
+      $app->enqueueMessage($errors, 'error');
       return false;
     }
 

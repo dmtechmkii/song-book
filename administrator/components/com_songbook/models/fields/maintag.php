@@ -1,7 +1,7 @@
 <?php
 /**
  * @package SongBook
- * @copyright Copyright (c) 2016 - 2017 Lucas Sanner
+ * @copyright Copyright (c) 2016 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 
@@ -25,7 +25,7 @@ class JFormFieldMaintag extends JFormFieldList
   {
     $options = array();
       
-    //Get the tax rates.
+    //Get the tags linked to the item.
     $db = JFactory::getDbo();
     $query = $db->getQuery(true);
     $query->select('tm.tag_id, t.path')

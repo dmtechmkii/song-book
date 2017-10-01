@@ -18,10 +18,10 @@ class SongbookController extends JControllerLegacy
     require_once JPATH_COMPONENT.'/helpers/songbook.php';
 
     //Display the submenu.
-    SongbookHelper::addSubmenu(JRequest::getCmd('view', 'songs'));
+    SongbookHelper::addSubmenu($this->input->get('view', 'songs'));
 
     //Set the default view.
-    JRequest::setVar('view', JRequest::getCmd('view', 'songs'));
+    $this->input->set('view', $this->input->get('view', 'songs'));
 
     //Display the view.
     parent::display();

@@ -89,7 +89,8 @@ class SongbookModelSong extends JModelAdmin
     if(SongbookHelper::checkSelectedFilter('tag', true)) {
 
       if(empty($pks)) {
-	return JError::raiseWarning(500, JText::_($this->text_prefix.'_ERROR_NO_ITEMS_SELECTED'));
+	JFactory::getApplication()->enqueueMessage(JText::_($this->text_prefix.'_ERROR_NO_ITEMS_SELECTED'), 'warning');
+	return false;
       }
 
       //Get the id of the selected tag and the limitstart value.

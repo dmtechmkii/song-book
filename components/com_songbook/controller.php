@@ -50,7 +50,8 @@ class SongbookController extends JControllerLegacy
     // Check for edit form.
     if($vName == 'form' && !$this->checkEditId('com_songbook.edit.song', $id)) {
       // Somehow the person just went to the form - we don't allow that.
-      return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+      JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+      return false;
     }
 
     //Make sure the parameters passed in the input by the component are safe.

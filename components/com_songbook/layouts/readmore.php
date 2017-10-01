@@ -5,6 +5,8 @@
  * @license GNU General Public License version 3, or later
  */
 
+defined('JPATH_BASE') or die;
+
 $params = $displayData['params'];
 $item = $displayData['item'];
 ?>

@@ -38,7 +38,7 @@ class com_songbookInstallerScript
       $rel = ' v-'.$oldRelease.' -> v-'.$this->release;
 
       if(version_compare($this->release, $oldRelease, 'le')) {
-	Jerror::raiseWarning(null, JText::_('COM_SONGBOOK_UPDATE_INCORRECT_VERSION').$rel);
+	JFactory::getApplication()->enqueueMessage(JText::_('COM_SONGBOOK_UPDATE_INCORRECT_VERSION').$rel, 'error');
 	return false;
       }
     }
@@ -68,7 +68,7 @@ class com_songbookInstallerScript
     $status = $catModel->save($catData);
  
     if(!$status) {
-      JError::raiseWarning(500, JText::_('Unable to create default content category!'));
+      JFactory::getApplication()->enqueueMessage('Unable to create default content category!', 'warning');
     }
   }
 
@@ -80,7 +80,13 @@ class com_songbookInstallerScript
    */
   function uninstall($parent) 
   {
-    //
+    //Remove tagging informations from the Joomla table.
+    $db = JFactory::getDbo();
+    $query = $db->getQuery(true);
+    $query->delete('#__content_types')
+	  ->where('type_alias="com_songbook.song" OR type_alias="com_songbook.category"');
+    $db->setQuery($query);
+    $db->query();
   }
 
 
@@ -165,7 +171,11 @@ $db->Quote('SongbookHelperRoute::getCategoryRoute'));
   function getParam($name)
   {
     $db = JFactory::getDbo();
-    $db->setQuery('SELECT manifest_cache FROM #__extensions WHERE name = "songbook"');
+    $query = $db->getQuery(true);
+    $query->select('manifest_cache')
+	  ->from('#__extensions')
+	  ->where('element = "com_songbook"');
+    $db->setQuery($query);
     $manifest = json_decode($db->loadResult(), true);
 
     return $manifest[$name];

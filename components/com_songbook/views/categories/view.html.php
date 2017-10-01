@@ -48,16 +48,18 @@ class SongbookViewCategories extends JViewCategories
 
     // Check for errors.
     if(count($errors = $this->get('Errors'))) {
-      JError::raiseWarning(500, implode("\n", $errors));
+      JFactory::getApplication()->enqueueMessage($errors, 'error');
       return false;
     }
 
     if($items === false) {
-      return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+      JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
+      return false;
     }
 
     if($parent == false) {
-      return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+      JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
+      return false;
     }
 
     $params = &$state->params;
