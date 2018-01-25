@@ -59,7 +59,7 @@ defined('JPATH_BASE') or die;
 	</dd>
   <?php endif; ?>
 
-  <?php if($displayData['params']->get('show_modify_date')) : ?>
+  <?php if($displayData['params']->get('show_modify_date') && (int)$displayData['item']->modified != 0) : ?>
     <dd class="modified">
       <span class="icon-calendar"></span>
       <time datetime="<?php echo JHtml::_('date', $displayData['item']->modified, 'c'); ?>" itemprop="dateModified">
