@@ -38,9 +38,6 @@ class JFormFieldMaintag extends JFormFieldList
 
     $tags = JHelperTags::convertPathsToNames($tags);
 
-    //Build the first option.
-    $options[] = JHtml::_('select.option', 0, JText::_('COM_SONGBOOK_OPTION_SELECT'));
-
     //Build the select options.
     foreach($tags as $tag) {
       $options[] = JHtml::_('select.option', $tag->tag_id, $tag->text);

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 // Import the JPlugin class
 jimport('joomla.plugin.plugin');
+require_once JPATH_ROOT.'/administrator/components/com_songbook/helpers/songbook.php';
 
 
 class plgContentSongbook extends JPlugin
@@ -21,13 +22,7 @@ class plgContentSongbook extends JPlugin
     if(!$this->params->get('tags_on_the_fly', 0)) {
       //Check we have tags before treating data.
       if(isset($data->newTags)) {
-	foreach($data->newTags as $key => $tagId) {
-	  //Check for newly created tags (ie: id=#new#Title of the tag)
-	  if(substr($tagId, 0, 5) == '#new#') {
-	    //Remove the new tag from the tag data.
-	    unset($data->newTags[$key]);
-	  }
-	}
+	SongbookHelper::removeTagsOnTheFly($data->newTags);
       }
     }
 
@@ -111,55 +106,34 @@ class plgContentSongbook extends JPlugin
    */
   private function setOrderByTag($context, $data, $isNew)
   {
-    //Get the jform data.
-    $jform = JFactory::getApplication()->input->post->get('jform', array(), 'array');
-
     // Create a new query object.
     $db = JFactory::getDbo();
     $query = $db->getQuery(true);
 
     //Check we have tags before treating data.
-    if(isset($jform['tags'])) {
+    if(isset($data->newTags)) {
       //Retrieve all the rows matching the item id.
-      $query->select('song_id, tag_id, IFNULL(ordering, "NULL") AS ordering')
+      $query->select('song_id, tag_id, main_tag_id, IFNULL(ordering, "NULL") AS ordering')
 	    ->from('#__songbook_song_tag_map')
 	    ->where('song_id='.(int)$data->id);
       $db->setQuery($query);
       $tags = $db->loadObjectList();
-
       $values = array();
-      foreach($jform['tags'] as $tagId) {
-	//Check for newly created tags (ie: id=#new#Title of the tag)
-	if(substr($tagId, 0, 5) == '#new#') {
-	  //Get the title tag then turn it into alias.
-	  $title = substr($tagId, 5);
-	  $alias = JFilterOutput::stringURLSafe($title);
-	  //Get the id of the new tag from its alias.
-	  $query->clear();
-	  $query->select('id')
-		->from('#__tags')
-		->where('alias='.$db->Quote($alias));
-	  $db->setQuery($query);
-	  $tagId = $db->loadResult();
-	  //Skip the tag in case of error.
-	  if(is_null($tagId)) {
-	    continue;
-	  }
-	}
 
+      foreach($data->newTags as $tagId) {
 	$newTag = true; 
 	//In order to preserve the ordering of the old tags we check if 
 	//they match those newly selected.
 	foreach($tags as $tag) {
 	  if($tag->tag_id == $tagId) {
-	    $values[] = $tag->song_id.','.$tag->tag_id.','.$tag->ordering;
+	    $values[] = $tag->song_id.','.$tag->tag_id.','.$data->main_tag_id.','.$tag->ordering;
 	    $newTag = false; 
 	    break;
 	  }
 	}
 
 	if($newTag) {
-	  $values[] = $data->id.','.$tagId.',NULL';
+	  $values[] = $data->id.','.$tagId.','.$data->main_tag_id.',NULL';
 	}
       }
 
@@ -170,7 +144,7 @@ class plgContentSongbook extends JPlugin
       $db->setQuery($query);
       $db->query();
 
-      $columns = array('song_id', 'tag_id', 'ordering');
+      $columns = array('song_id', 'tag_id', 'main_tag_id', 'ordering');
       //Insert a new row for each tag linked to the item.
       $query->clear();
       $query->insert('#__songbook_song_tag_map')

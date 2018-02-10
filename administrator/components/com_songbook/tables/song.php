@@ -10,6 +10,7 @@ defined('_JEXEC') or die('Restricted access');
  
 // import Joomla table library
 jimport('joomla.database.table');
+require_once JPATH_ROOT.'/administrator/components/com_songbook/helpers/songbook.php';
  
 use Joomla\Registry\Registry;
 
@@ -114,11 +115,6 @@ class SongbookTableSong extends JTable
       }
     }
 
-    //Check the selected main tag is part of the current tags.
-    if($this->main_tag_id && !in_array($this->main_tag_id, $this->newTags)) {
-      $this->main_tag_id = 0;
-    }
-
     //Set the alias of the song.
     
     //Create a sanitized alias, (see stringURLSafe function for details).
@@ -128,12 +124,34 @@ class SongbookTableSong extends JTable
       $this->alias = JFilterOutput::stringURLSafe($this->title);
     }
 
-    // Verify that the alias is unique
+    // Verify that the alias is unique against the song category.
     $table = JTable::getInstance('Song', 'SongbookTable', array('dbo', $this->getDbo()));
 
     if($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
       $this->setError(JText::_('COM_SONGBOOK_DATABASE_ERROR_SONG_UNIQUE_ALIAS'));
       return false;
+    }
+
+    //Check we have tags before checking alias.
+    if(isset($this->newTags)) {
+      //Creating tags on the fly is not allowed in our component.
+      SongbookHelper::removeTagsOnTheFly($this->newTags);
+
+      if(!empty($this->newTags)) {
+	//Check that the selected main tag is still part of the current tags.
+	if(!in_array($this->main_tag_id, $this->newTags)) {
+	  //By default set the first current tag as the main tag.
+	  $this->main_tag_id = reset($this->newTags);
+	}
+
+	if($table->load(array('alias' => $this->alias, 'main_tag_id' => $this->main_tag_id)) && ($table->id != $this->id || $this->id == 0)) {
+	  $this->setError(JText::_('COM_SONGBOOK_DATABASE_ERROR_SONG_MAIN_TAG_UNIQUE_ALIAS'));
+	  return false;
+	}
+      }
+    }
+    else {
+      $this->main_tag_id = 0;
     }
 
     return parent::store($updateNulls);

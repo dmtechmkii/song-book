@@ -36,7 +36,7 @@ $item = $this->item;
     <?php echo JLayoutHelper::render('info_block', array('item' => $item, 'params' => $params)); ?>
   <?php endif; ?>
 
-  <?php if(($params->get('show_tags') == 'songbook' || $params->get('show_tags') == 'both') && !empty($this->item->tags->itemTags)) : ?>
+  <?php if($params->get('show_tags') && !empty($this->item->tags->itemTags)) : ?>
     <?php echo JLayoutHelper::render('tags', array('item' => $this->item), JPATH_SITE.'/components/com_songbook/layouts/'); ?>
   <?php endif; ?>
 
@@ -46,10 +46,5 @@ $item = $this->item;
 
   <?php if(!empty($item->full_text)) : ?>
     <?php echo $item->full_text; ?>
-  <?php endif; ?>
-
-  <?php if(($params->get('show_tags') == 'standard' || $params->get('show_tags') == 'both') && !empty($this->item->tags->itemTags)) : ?>
-	  <?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-	  <?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
   <?php endif; ?>
 </div>

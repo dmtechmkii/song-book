@@ -146,10 +146,8 @@
 	       label="COM_SONGBOOK_FIELD_SHOW_TAGS_LABEL"
 	       description="COM_SONGBOOK_FIELD_SHOW_TAGS_DESC">
 	       <option value="">JGLOBAL_USE_GLOBAL</option>
-	       <option value="none">JNONE</option>
-	       <option value="standard">COM_SONGBOOK_OPTION_STANDARD_MODE</option>
-	       <option value="songbook">COM_SONGBOOK_OPTION_SONGBOOK_MODE</option>
-	       <option value="both">COM_SONGBOOK_OPTION_BOTH</option>
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
 	</field>
 
 	<field name="show_intro"
@@ -172,16 +170,6 @@
 	       <option value="0">JHIDE</option>
 	</field>
 
-	<field name="link_category"
-	       type="list"
-	       class="chzn-color"
-	       label="JGLOBAL_LINK_CATEGORY_LABEL"
-	       description="COM_SONGBOOK_LINK_CATEGORY_DESC">
-	       <option value="">JGLOBAL_USE_GLOBAL</option>
-	       <option value="1">JYES</option>
-	       <option value="0">JNO</option>
-	</field>
-
 	<field name="show_parent_category"
 	       type="list"
 	       class="chzn-color"
@@ -190,16 +178,6 @@
 	       <option value="">JGLOBAL_USE_GLOBAL</option>
 	       <option value="1">JSHOW</option>
 	       <option value="0">JHIDE</option>
-	</field>
-
-	<field name="link_parent_category"
-	       type="list"
-	       class="chzn-color"
-	       label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-	       description="COM_SONGBOOK_LINK_PARENT_CATEGORY_DESC">
-	       <option value="">JGLOBAL_USE_GLOBAL</option>
-	       <option value="1">JYES</option>
-	       <option value="0">JNO</option>
 	</field>
 
 	<field name="show_author"

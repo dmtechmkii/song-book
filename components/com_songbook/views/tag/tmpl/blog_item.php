@@ -27,26 +27,21 @@ $params = $this->item->params;
     <?php echo JLayoutHelper::render('info_block', array('item' => $this->item, 'params' => $params)); ?>
   <?php endif; ?>
 
-  <?php if(($params->get('show_tags') == 'songbook' || $params->get('show_tags') == 'both') && !empty($this->item->tags->itemTags)) : ?>
+  <?php if($params->get('show_tags') && !empty($this->item->tags->itemTags)) : ?>
     <?php echo JLayoutHelper::render('tags', array('item' => $this->item), JPATH_SITE.'/components/com_songbook/layouts/'); ?>
   <?php endif; ?>
 
   <?php echo $this->item->intro_text; ?>
 
-  <?php if(($params->get('show_tags') == 'standard' || $params->get('show_tags') == 'both') && !empty($this->item->tags->itemTags)) : ?>
-	  <?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-	  <?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
-  <?php endif; ?>
-
   <?php if($params->get('show_readmore') && !empty($this->item->full_text)) :
 	  if($params->get('access-view')) :
-	    $link = JRoute::_(SongbookHelperRoute::getSongRoute($this->item->slug, $this->item->tag_ids, $this->item->language, true));
+	    $link = JRoute::_(SongbookHelperRoute::getSongRoute($this->item->slug, $this->item->tag_ids, $this->item->language));
 	  else : //Redirect the user to the login page.
 	    $menu = JFactory::getApplication()->getMenu();
 	    $active = $menu->getActive();
 	    $itemId = $active->id;
 	    $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId, false));
-	    $link->setVar('return', base64_encode(JRoute::_(SongbookHelperRoute::getSongRoute($this->item->slug, $this->item->tag_ids, $this->item->language, true), false)));
+	    $link->setVar('return', base64_encode(JRoute::_(SongbookHelperRoute::getSongRoute($this->item->slug, $this->item->tag_ids, $this->item->language), false)));
 	  endif; ?>
 
 	<?php echo JLayoutHelper::render('readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>

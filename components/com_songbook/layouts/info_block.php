@@ -19,25 +19,13 @@ defined('JPATH_BASE') or die;
 
   <?php if($displayData['params']->get('show_parent_category') && !empty($displayData['item']->parent_slug)) : ?>
     <dd class="parent-category-name">
-      <?php $title = $this->escape($displayData['item']->parent_title); ?>
-      <?php if($displayData['params']->get('link_parent_category')) : ?>
-	<?php $url = '<a href="' . JRoute::_(SongbookHelperRoute::getCategoryRoute($displayData['item']->parent_slug)).'" itemprop="genre">'.$title.'</a>'; ?>
-	<?php echo JText::sprintf('COM_SONGBOOK_PARENT', $url); ?>
-      <?php else : ?>
-	<?php echo JText::sprintf('COM_SONGBOOK_PARENT', '<span itemprop="genre">'.$title.'</span>'); ?>
-    <?php endif; ?>
+      <?php echo JText::sprintf('COM_SONGBOOK_PARENT', '<span itemprop="genre">'.$this->escape($displayData['item']->parent_title).'</span>'); ?>
     </dd>
   <?php endif; ?>
 
   <?php if($displayData['params']->get('show_category')) : ?>
     <dd class="category-name">
-      <?php $title = $this->escape($displayData['item']->category_title); ?>
-      <?php if ($displayData['params']->get('link_category') && $displayData['item']->catslug) : ?>
-	<?php $url = '<a href="'.JRoute::_(SongbookHelperRoute::getCategoryRoute($displayData['item']->catslug)).'" itemprop="genre">'.$title.'</a>'; ?>
-	<?php echo JText::sprintf('COM_SONGBOOK_CATEGORY', $url); ?>
-      <?php else : ?>
-	<?php echo JText::sprintf('COM_SONGBOOK_CATEGORY', '<span itemprop="genre">'.$title.'</span>'); ?>
-      <?php endif; ?>
+      <?php echo JText::sprintf('COM_SONGBOOK_CATEGORY', '<span itemprop="genre">'.$this->escape($displayData['item']->category_title).'</span>'); ?>
     </dd>
   <?php endif; ?>
 

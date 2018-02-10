@@ -44,9 +44,13 @@ Joomla.submitbutton = function(task)
 	</div>
 	<div class="span3">
 	  <?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
-	  <div class="form-vertical">
-	    <?php echo $this->form->getControlGroup('main_tag_id'); ?>
-	  </div>
+
+	  <?php if($this->item->id && !empty($this->item->tags->tags)) : //Shown only if one or more tags are already selected. ?>
+	    <div class="form-vertical">
+	      <?php echo $this->form->getControlGroup('main_tag_id'); ?>
+	    </div>
+	  <?php endif; ?>
+
 	</div>
       </div>
       <?php echo JHtml::_('bootstrap.endTab'); ?>

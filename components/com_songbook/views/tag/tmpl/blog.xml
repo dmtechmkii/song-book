@@ -208,13 +208,13 @@
 		<field name="spacer2" type="spacer" hr="true" />
 
 		<field name="orderby_pri" type="list"
-			description="COM_SONGBOOK_CATEGORY_TAG_ORDER_DESC"
-			label="COM_SONGBOOK_CATEGORY_TAG_ORDER_LABEL" >
+			description="COM_SONGBOOK_TAG_ORDER_DESC"
+			label="COM_SONGBOOK_TAG_ORDER_LABEL" >
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="none">JGLOBAL_NO_ORDER</option>
 			<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
 			<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
-			<option value="order">COM_SONGBOOK_CATEGORY_TAG_ORDER_OPTION</option>
+			<option value="order">COM_SONGBOOK_TAG_ORDER_OPTION</option>
 		</field>
 
 		<field name="orderby_sec" type="list"
@@ -286,10 +286,8 @@
 		       description="COM_SONGBOOK_FIELD_SHOW_TAGS_DESC">
 		       <option value="">JGLOBAL_USE_GLOBAL</option>
 		       <option value="use_song">COM_SONGBOOK_FIELD_VALUE_USE_SONG_SETTINGS</option>
-		       <option value="none">JNONE</option>
-		       <option value="standard">COM_SONGBOOK_OPTION_STANDARD_MODE</option>
-		       <option value="songbook">COM_SONGBOOK_OPTION_SONGBOOK_MODE</option>
-		       <option value="both">COM_SONGBOOK_OPTION_BOTH</option>
+		       <option value="1">JYES</option>
+		       <option value="0">JNO</option>
 		</field>
 
 		<field name="show_intro"
@@ -312,16 +310,6 @@
 		       <option value="0">JHIDE</option>
 		</field>
 
-		<field name="link_category"
-		       type="list"
-		       label="JGLOBAL_LINK_CATEGORY_LABEL"
-		       description="COM_SONGBOOK_LINK_CATEGORY_DESC">
-		       <option value="">JGLOBAL_USE_GLOBAL</option>
-		       <option value="use_song">COM_SONGBOOK_FIELD_VALUE_USE_SONG_SETTINGS</option>
-		       <option value="1">JYES</option>
-		       <option value="0">JNO</option>
-		</field>
-
 		<field name="show_parent_category"
 		       type="list"
 		       label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
@@ -330,16 +318,6 @@
 		       <option value="use_song">COM_SONGBOOK_FIELD_VALUE_USE_SONG_SETTINGS</option>
 		       <option value="1">JSHOW</option>
 		       <option value="0">JHIDE</option>
-		</field>
-
-		<field name="link_parent_category"
-		       type="list"
-		       label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-		       description="COM_SONGBOOK_LINK_PARENT_CATEGORY_DESC">
-		       <option value="">JGLOBAL_USE_GLOBAL</option>
-		       <option value="use_song">COM_SONGBOOK_FIELD_VALUE_USE_SONG_SETTINGS</option>
-		       <option value="1">JYES</option>
-		       <option value="0">JNO</option>
 		</field>
 
 		<field name="show_author"

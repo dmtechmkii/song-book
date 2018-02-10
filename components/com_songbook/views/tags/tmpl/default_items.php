@@ -85,7 +85,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 				<li class="cat-list-row<?php echo $i % 2; ?>">
 					<h3>
-						<a href="<?php echo JRoute::_(SongbookHelperRoute::getTagRoute($item->id.':'.$item->alias, $item->path)); ?>">
+						<a href="<?php echo JRoute::_(SongbookHelperRoute::getTagRoute($item->id.':'.$item->alias, $item->language)); ?>">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					</h3>

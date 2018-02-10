@@ -44,6 +44,7 @@ DROP TABLE IF EXISTS `#__songbook_song_tag_map`;
 CREATE TABLE `#__songbook_song_tag_map` (
   `song_id` INT UNSIGNED NOT NULL ,
   `tag_id` INT UNSIGNED NOT NULL ,
+  `main_tag_id` INT UNSIGNED NOT NULL ,
   `ordering` INT NULL DEFAULT NULL ,
   INDEX `idx_song_id` (`song_id` ASC) ,
   INDEX `idx_tag_id` (`tag_id` ASC) )
