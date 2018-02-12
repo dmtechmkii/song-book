@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 class SongbookHelperQuery
 {
   /**
-   * Translate an order code to a field for primary category ordering.
+   * Translate an order code to a field for primary tag ordering.
    *
    * @param   string	$orderby	The ordering code.
    *
@@ -27,25 +27,18 @@ class SongbookHelperQuery
    */
   public static function orderbyPrimary($orderby)
   {
-    //Set the prefix to use according to the view.
-    $view = JFactory::getApplication()->input->get('view');
-    $prefix = 'ca.'; //Use songbook table.
-    if($view == 'tag') {
-      $prefix = 'n.'; //Use mapping table.
-    }
-
     switch ($orderby)
     {
       case 'alpha' :
-	      $orderby = $prefix.'path, ';
+	      $orderby = 'n.path, ';
 	      break;
 
       case 'ralpha' :
-	      $orderby = $prefix.'path DESC, ';
+	      $orderby = 'n.path DESC, ';
 	      break;
 
       case 'order' :
-	      $orderby = $prefix.'lft, ';
+	      $orderby = 'n.lft, ';
 	      break;
 
       default :
@@ -57,7 +50,7 @@ class SongbookHelperQuery
   }
 
   /**
-   * Translate an order code to a field for secondary category ordering.
+   * Translate an order code to a field for secondary tag ordering.
    *
    * @param   string	$orderby	The ordering code.
    * @param   string	$orderDate	The ordering code for the date.
@@ -68,13 +61,6 @@ class SongbookHelperQuery
   public static function orderbySecondary($orderby, $orderDate = 'created')
   {
     $queryDate = self::getQueryDate($orderDate);
-
-    //Set the prefix to use according to the view.
-    $view = JFactory::getApplication()->input->get('view');
-    $prefix = 's.'; //Use songbook table.
-    if($view == 'tag') {
-      $prefix = 'tm.'; //Use mapping table.
-    }
 
     switch ($orderby)
     {
@@ -95,11 +81,11 @@ class SongbookHelperQuery
 	      break;
 
       case 'order' :
-	      $orderby = $prefix.'ordering';
+	      $orderby = 'tm.ordering';
 	      break;
 
       case 'rorder' :
-	      $orderby = $prefix.'ordering DESC';
+	      $orderby = 'tm.ordering DESC';
 	      break;
 
       case 'author' :
@@ -111,7 +97,7 @@ class SongbookHelperQuery
 	      break;
 
       default :
-	      $orderby = $prefix.'ordering';
+	      $orderby = 'tm.ordering';
 	      break;
     }
 

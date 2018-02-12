@@ -303,10 +303,15 @@ class SongbookModelTag extends JModelList
 	  //Ensure the current tag is published.
 	  ->where('ta.published=1');
 
-    // Join over the tags to get parent tag title.
+    // Join over the tags to get the parent tag title.
     $query->select('tag_parent.title AS tag_parent_title, tag_parent.id AS tag_parent_id,'.
 		   'tag_parent.path AS tag_parent_route, tag_parent.alias AS tag_parent_alias')
-	  ->join('LEFT', '#__tags as tag_parent ON tag_parent.id = ta.parent_id');
+	  ->join('LEFT', '#__tags AS tag_parent ON tag_parent.id = ta.parent_id');
+
+    // Join over the tags to get the main tag title.
+    $query->select('main_tag.title AS main_tag_title, main_tag.path AS main_tag_route,'.
+		   'main_tag.alias AS main_tag_alias')
+	  ->join('LEFT', '#__tags AS main_tag ON main_tag.id = s.main_tag_id');
 
     // Join on category table.
     $query->select('ca.title AS category_title, ca.alias AS category_alias, ca.access AS category_access')
@@ -316,7 +321,7 @@ class SongbookModelTag extends JModelList
 
     // Join over the categories to get parent category title.
     $query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
-	  ->join('LEFT', '#__categories as parent ON parent.id = ca.parent_id');
+	  ->join('LEFT', '#__categories AS parent ON parent.id = ca.parent_id');
 
     // Join over the users.
     $query->select('us.name AS author')
@@ -401,7 +406,7 @@ class SongbookModelTag extends JModelList
     }
 
     $query->order($orderBy);
-//echo $query;
+
     return $query;
   }
 
@@ -445,7 +450,7 @@ class SongbookModelTag extends JModelList
       $endLevel = 10;
     }
 
-    //Ensure subcats are required.
+    //Ensure subtags are required.
     if($endLevel) {
       //Get the tag order type.
       $tagOrderBy = $this->getState('params')->get('orderby_pri');

@@ -130,12 +130,7 @@ class SongbookViewTag extends JViewLegacy
     // Compute the song slugs.
     foreach($this->items as $item) {
       $item->slug = $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-      $item->catslug = $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
-      $item->parent_slug = ($item->parent_alias) ? ($item->parent_id.':'.$item->parent_alias) : $item->parent_id;
-      // No link for ROOT category 
-      if($item->parent_alias == 'root') {
-	$item->parent_slug = null;
-      }
+      $item->maintagslug = $item->main_tag_alias ? ($item->main_tag_id.':'.$item->main_tag_alias) : $item->main_tag_id;
 
       if($item->publish_up == 0) {
 	$item->publish_up = $this->nowDate;

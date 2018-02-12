@@ -66,11 +66,16 @@ class SongbookModelSong extends JModelItem
     if(!isset($this->_item[$pk])) {
       $db = JFactory::getDbo();
       $query = $db->getQuery(true);
-      $query->select($this->getState('list.select', 's.id,s.title,s.alias,s.intro_text,s.full_text,s.catid,s.published,'.
+      $query->select($this->getState('list.select', 's.id,s.title,s.alias,s.intro_text,s.full_text,s.main_tag_id,s.catid,s.published,'.
 				     's.checked_out,s.checked_out_time,s.created,s.created_by,s.access,s.params,s.metadata,'.
 				     's.metakey,s.metadesc,s.hits,s.publish_up,s.publish_down,s.language,s.modified,s.modified_by'))
 	    ->from($db->quoteName('#__songbook_song').' AS s')
 	    ->where('s.id='.$pk);
+
+      // Join over the tags to get the main tag title.
+      $query->select('main_tag.title AS main_tag_title, main_tag.path AS main_tag_route,'.
+		     'main_tag.alias AS main_tag_alias')
+	    ->join('LEFT', '#__tags AS main_tag ON main_tag.id = s.main_tag_id');
 
       // Join on category table.
       $query->select('ca.title AS category_title, ca.alias AS category_alias, ca.access AS category_access')

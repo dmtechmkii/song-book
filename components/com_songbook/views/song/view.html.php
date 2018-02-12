@@ -34,8 +34,8 @@ class SongbookViewSong extends JViewLegacy
       return false;
     }
 
-    // Compute the category slug.
-    $this->item->catslug = $this->item->category_alias ? ($this->item->catid.':'.$this->item->category_alias) : $this->item->catid;
+    // Compute the main tag slug.
+    $this->item->maintagslug = $this->item->main_tag_alias ? ($this->item->main_tag_id.':'.$this->item->main_tag_alias) : $this->item->main_tag_id;
     //Get the possible extra class name.
     $this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx'));
 

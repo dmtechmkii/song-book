@@ -17,7 +17,19 @@ defined('JPATH_BASE') or die;
     </dd>
   <?php endif; ?>
 
-  <?php if($displayData['params']->get('show_parent_category') && !empty($displayData['item']->parent_slug)) : ?>
+  <?php if($displayData['params']->get('show_main_tag')) : ?>
+    <dd class="category-name">
+      <?php $title = $this->escape($displayData['item']->main_tag_title); ?>
+      <?php if ($displayData['params']->get('link_main_tag') && $displayData['item']->maintagslug) : ?>
+	<?php $url = '<a href="'.JRoute::_(SongbookHelperRoute::getTagRoute($displayData['item']->maintagslug)).'" itemprop="genre">'.$title.'</a>'; ?>
+	<?php echo JText::sprintf('COM_SONGBOOK_MAIN_TAG', $url); ?>
+      <?php else : ?>
+	<?php echo JText::sprintf('COM_SONGBOOK_MAIN_TAG', '<span itemprop="genre">'.$title.'</span>'); ?>
+      <?php endif; ?>
+    </dd>
+  <?php endif; ?>
+
+  <?php if($displayData['params']->get('show_parent_category')) : ?>
     <dd class="parent-category-name">
       <?php echo JText::sprintf('COM_SONGBOOK_PARENT', '<span itemprop="genre">'.$this->escape($displayData['item']->parent_title).'</span>'); ?>
     </dd>
