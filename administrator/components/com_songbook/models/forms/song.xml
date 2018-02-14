@@ -37,7 +37,7 @@
 	       label="JFIELD_ACCESS_LABEL"
 	       description="JFIELD_ACCESS_DESC" class="inputbox" />
 
-	<field name="tags" type="tag" label="JTAG" 
+	<field name="tags" type="tags" label="JTAG" 
 	       description="JTAG_DESC"
 	       class="inputbox span12" multiple="true">
 	</field>

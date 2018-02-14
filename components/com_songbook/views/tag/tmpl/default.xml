@@ -13,12 +13,13 @@
 	<fields name="request">
 	      <fieldset name="request">
 
-		<field name="id" type="tag"
-			default="0"
-			description="COM_SONGBOOK_CHOOSE_TAG_DESC"
-			extension="com_songbook"
-			label="COM_SONGBOOK_CHOOSE_TAG_LABEL"
-			required="true" />
+		<field name="id" type="tags"
+		       default="0"
+		       addfieldpath="/administrator/components/com_songbook/models/fields"
+		       description="COM_SONGBOOK_CHOOSE_TAG_DESC"
+		       extension="com_songbook"
+		       label="COM_SONGBOOK_CHOOSE_TAG_LABEL"
+		       required="true" />
 	      </fieldset>
 	</fields>
 

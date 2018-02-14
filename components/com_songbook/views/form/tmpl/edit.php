@@ -85,15 +85,20 @@ Joomla.submitbutton = function(task)
 	      </div>
 
 	      <div class="tab-pane" id="publishing">
-		<?php echo $this->form->getControlGroup('catid'); ?>
-		<?php echo $this->form->getControlGroup('tags'); ?>
-		<?php echo $this->form->getControlGroup('access'); ?>
+		<?php echo $this->form->getControlGroup('catid'); 
+		      echo $this->form->getControlGroup('tags'); 
 
-		<?php if($this->item->params->get('access-change')) : ?>
-		  <?php echo $this->form->getControlGroup('published'); ?>
-		  <?php echo $this->form->getControlGroup('publish_up'); ?>
-		  <?php echo $this->form->getControlGroup('publish_down'); ?>
-		<?php endif; ?>
+		      if($this->item->id && !empty($this->item->tags->tags)) { //Shown only if one or more tags are already selected. 
+			echo $this->form->getControlGroup('main_tag_id'); 
+		      }
+
+		      echo $this->form->getControlGroup('access'); ?>
+
+		<?php if($this->item->params->get('access-change')) : 
+			 echo $this->form->getControlGroup('published'); 
+			 echo $this->form->getControlGroup('publish_up'); 
+			 echo $this->form->getControlGroup('publish_down'); 
+		      endif; ?>
 	      </div>
 
 	      <div class="tab-pane" id="language">

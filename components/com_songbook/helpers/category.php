@@ -10,6 +10,8 @@ defined('_JEXEC') or die;
 /**
  * SongBook Component Category Tree
  *
+ * Note: Do not delete this file as it might be used by the com_tags component.
+ *
  * @static
  * @package     Joomla.Site
  * @subpackage  com_songbook
