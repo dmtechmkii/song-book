@@ -1,7 +1,7 @@
 <?php
 /**
- * @package SongBook
- * @copyright Copyright (c) 2016 Lucas Sanner
+ * @package Song Book
+ * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 
@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_SITE.'/helpers/query.php';
 
 /**
- * SongBook Component Model
+ * Song Book Component Model
  *
  * @package     Joomla.Site
  * @subpackage  com_songbook

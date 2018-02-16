@@ -1,6 +1,6 @@
 <?php
 /**
- * @package SongBook
+ * @package Song Book
  * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */

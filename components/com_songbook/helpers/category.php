@@ -1,14 +1,14 @@
 <?php
 /**
- * @package SongBook
- * @copyright Copyright (c) 2016 Lucas Sanner
+ * @package Song Book
+ * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 
 defined('_JEXEC') or die;
 
 /**
- * SongBook Component Category Tree
+ * Song Book Component Category Tree
  *
  * Note: Do not delete this file as it might be used by the com_tags component.
  *

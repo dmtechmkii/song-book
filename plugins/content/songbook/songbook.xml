@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="content" method="upgrade">
-    <name>Plugin SongBook</name>
+    <name>PLG_SONGBOOK_XML_PLUGIN_NAME</name>
     <author>Lucas Sanner</author>
     <creationDate>March 2016</creationDate>
-    <copyright> Copyright (C) 2016 Lucas Sanner. All rights reserved.</copyright>
+    <copyright> Copyright (C) 2016 - 2018 Lucas Sanner. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later http://www.gnu.org/licenses/gpl.html</license>
     <authorEmail>lucas.sanner@gmail.com</authorEmail>
     <version>1.0</version>

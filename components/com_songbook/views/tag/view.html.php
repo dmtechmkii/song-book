@@ -1,7 +1,7 @@
 <?php
 /**
- * @package SongBook
- * @copyright Copyright (c) 2016 Lucas Sanner
+ * @package Song Book
+ * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 
@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 /**
- * HTML View class for the SongBook component.
+ * HTML View class for the Song Book component.
  */
 class SongbookViewTag extends JViewLegacy
 {

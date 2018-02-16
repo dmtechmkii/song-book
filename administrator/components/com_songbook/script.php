@@ -1,7 +1,7 @@
 <?php
 /**
- * @package SongBook 1.x
- * @copyright Copyright (c) 2016 Lucas Sanner
+ * @package Song Book 1.x
+ * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 
@@ -62,7 +62,7 @@ class com_songbookInstallerScript
     $config = array('table_path' => $basePath.'/tables');
     $catModel = new CategoriesModelCategory($config);
     $catData = array('id' => 0, 'parent_id' => 1, 'level' => 1, 'path' => 'songbook',
-		     'extension' => 'com_songbook', 'title' => 'SongBook',
+		     'extension' => 'com_songbook', 'title' => 'Song Book',
 		     'alias' => 'songbook', 'description' => '<p>Default category</p>',
 		     'published' => 1, 'language' => '*');
     $status = $catModel->save($catData);
@@ -139,23 +139,23 @@ class com_songbookInstallerScript
       //informations about the component items we want to tag.
       //Those informations should be inserted into the #__content_types table.
 
-      //Informations about the SongBook song items.
+      //Informations about the Song Book song items.
       $columns = array('type_title', 'type_alias', $db->quoteName('table'), 'field_mappings', 'router');
       $query->clear();
       $query->insert('#__content_types');
       $query->columns($columns);
-      $query->values($db->Quote('SongBook').','.$db->Quote('com_songbook.song').','.
+      $query->values($db->Quote('Song Book').','.$db->Quote('com_songbook.song').','.
 $db->Quote('{"special":{"dbtable":"#__songbook_song","key":"id","type":"Song","prefix":"SongbookTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}').','.
 $db->Quote('{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"intro_text","core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access","core_params":"null","core_featured":"null","core_metadata":"null","core_language":"language","core_images":"null","core_urls":"null","core_version":"null","core_ordering":"ordering","core_metakey":"null","core_metadesc":"null","core_catid":"catid","core_xreference":"null","asset_id":"asset_id"},"special": {}}').','.
 $db->Quote('SongbookHelperRoute::getSongRoute'));
       $db->setQuery($query);
       $db->query();
 
-      //Informations about the SongBook category items.
+      //Informations about the Song Book category items.
       $query->clear();
       $query->insert('#__content_types');
       $query->columns($columns);
-      $query->values($db->Quote('SongBook Category').','.$db->Quote('com_songbook.category').','.
+      $query->values($db->Quote('Song Book Category').','.$db->Quote('com_songbook.category').','.
 $db->Quote('{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common"{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}').','.
 $db->Quote('{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description","core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access","core_params":"params","core_featured":"null","core_metadata":"metadata","core_language":"language","core_images":"null","core_urls":"null","core_version":"version","core_ordering":"null","core_metakey":"metakey","core_metadesc":"metadesc","core_catid":"parent_id","core_xreference":"null","asset_id":"asset_id"},"special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}').','.
 $db->Quote('SongbookHelperRoute::getCategoryRoute'));
