@@ -74,12 +74,12 @@ var songbook = {
 	</div>
       <?php endif; ?>
      
-      <?php echo JLayoutHelper::render('filter_ordering', $this); ?>
+      <?php echo JLayoutHelper::render('tag.filter_ordering', $this); ?>
 
       <?php if($this->params->get('show_pagination_limit')) : ?>
 	<div class="span1">
 	  <label for="limit" class="element-invisible"><?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?></label>
-	    <?php echo JLayoutHelper::render('limitbox', array('limit_range' => $this->params->get('display_num'),
+	    <?php echo JLayoutHelper::render('tag.limitbox', array('limit_range' => $this->params->get('display_num'),
 							       'current_limit' => $this->state->get('list.limit'))); ?>
 	</div>
       <?php endif; ?>
@@ -105,7 +105,7 @@ var songbook = {
 	    <?php endif; ?>
 
 	    <?php //Load our own pagination layout. ?>
-	    <?php echo JLayoutHelper::render('song_pagination', $this->pagination); ?>
+	    <?php echo JLayoutHelper::render('tag.pagination', $this->pagination); ?>
     </div>
     <?php endif; ?>
 

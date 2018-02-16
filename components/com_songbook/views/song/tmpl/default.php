@@ -22,22 +22,20 @@ $item = $this->item;
     </div>
   <?php endif; ?>
 
-  <?php echo JLayoutHelper::render('song_title', array('item' => $item, 'params' => $params, 'now_date' => $this->nowDate),
-				      JPATH_SITE.'/components/com_songbook/layouts/'); ?>
+  <?php echo JLayoutHelper::render('song.title', array('item' => $item, 'params' => $params, 'now_date' => $this->nowDate)); ?>
 
-  <?php echo JLayoutHelper::render('icons', array('item' => $this->item, 'user' => $this->user, 'uri' => $this->uri),
-				    JPATH_SITE.'/components/com_songbook/layouts/'); ?>
+  <?php echo JLayoutHelper::render('song.icons', array('item' => $this->item, 'user' => $this->user, 'uri' => $this->uri)); ?>
 
   <?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 		       || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category')
 		       || $params->get('show_author') ); ?>
 
   <?php if ($useDefList) : ?>
-    <?php echo JLayoutHelper::render('info_block', array('item' => $item, 'params' => $params)); ?>
+    <?php echo JLayoutHelper::render('song.info_block', array('item' => $item, 'params' => $params)); ?>
   <?php endif; ?>
 
   <?php if($params->get('show_tags') && !empty($this->item->tags->itemTags)) : ?>
-    <?php echo JLayoutHelper::render('tags', array('item' => $this->item), JPATH_SITE.'/components/com_songbook/layouts/'); ?>
+    <?php echo JLayoutHelper::render('song.tags', array('item' => $this->item)); ?>
   <?php endif; ?>
 
   <?php if($item->params->get('show_intro')) : ?>
