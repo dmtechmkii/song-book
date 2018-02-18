@@ -207,7 +207,7 @@ class SongbookModelSongs extends JModelList
 	    ->join('LEFT', '#__songbook_song_tag_map AS tm ON s.id=tm.song_id AND tm.tag_id='.(int)$tagId);
 
       //Switch to the mapping table ordering.
-      //Note: Songs with NULL ordering are placed at the end of the list.
+      //Note: Songs with a NULL ordering value are placed at the end of the list.
       $orderCol = 'ISNULL(tm.ordering) ASC, tm_ordering';
     }
 

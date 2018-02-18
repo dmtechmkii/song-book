@@ -1,16 +1,14 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_tags
- *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package Song Book
+ * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
+ * @license GNU General Public License version 3, or later
  */
 
 defined('_JEXEC') or die;
 
 /**
- * HTML View class for the Tags component all tags view
+ * HTML View class for the Song Book component all tags view
  *
  * @since  3.1
  */
@@ -27,7 +25,7 @@ class SongbookViewTags extends JViewLegacy
 	{
 		$app            = JFactory::getApplication();
 		$document       = JFactory::getDocument();
-		$document->link = JRoute::_('index.php?option=com_tags&view=tags');
+		$document->link = JRoute::_('index.php?option=com_songbook&view=tags');
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -57,7 +55,7 @@ class SongbookViewTags extends JViewLegacy
 			// Load individual item creator class
 			$feeditem = new JFeedItem;
 			$feeditem->title       = $title;
-			$feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
+			$feeditem->link        = '/index.php?option=com_songbook&view=tag&id=' . (int) $item->id;
 			$feeditem->description = $description;
 			$feeditem->date        = $date;
 			$feeditem->category    = 'All Tags';

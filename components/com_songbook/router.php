@@ -20,7 +20,7 @@ class SongbookRouter extends JComponentRouterView
 
 
   /**
-   * SongBook Component router constructor
+   * Song Book Component router constructor
    *
    * @param   JApplicationCms  $app   The application object
    * @param   JMenu            $menu  The menu object to work with
