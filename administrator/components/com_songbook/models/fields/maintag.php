@@ -28,7 +28,7 @@ class JFormFieldMaintag extends JFormFieldList
     //Get the tags linked to the item.
     $db = JFactory::getDbo();
     $query = $db->getQuery(true);
-    $query->select('tm.tag_id, t.path')
+    $query->select('tm.tag_id, t.path, t.language')
 	  ->from('#__contentitem_tag_map AS tm')
 	  ->join('LEFT', '#__tags AS t ON t.id=tm.tag_id')
 	  ->where('tm.type_alias = "com_songbook.song" AND tm.content_item_id='.(int)$this->form->getValue('id'))
@@ -40,7 +40,12 @@ class JFormFieldMaintag extends JFormFieldList
 
     //Build the select options.
     foreach($tags as $tag) {
-      $options[] = JHtml::_('select.option', $tag->tag_id, $tag->text);
+      $langTag = '';
+      if($tag->language !== '*') {
+        $langTag = ' ('.$tag->language.')';
+      }
+
+      $options[] = JHtml::_('select.option', $tag->tag_id, $tag->text.$langTag);
     }
 
     // Merge any additional options in the XML definition.

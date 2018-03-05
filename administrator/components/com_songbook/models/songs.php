@@ -92,6 +92,7 @@ class SongbookModelSongs extends JModelList
     $id .= ':'.$this->getState('filter.user_id');
     $id .= ':'.$this->getState('filter.category_id');
     $id .= ':'.$this->getState('filter.language');
+    $id .= ':'.$this->getState('filter.tag');
 
     return parent::getStoreId($id);
   }

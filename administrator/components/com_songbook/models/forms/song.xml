@@ -38,7 +38,7 @@
 	       description="JFIELD_ACCESS_DESC" class="inputbox" />
 
 	<field name="tags" type="tags" label="JTAG" 
-	       description="JTAG_DESC"
+	       description="COM_SONGBOOK_FIELD_TAG_DESC"
 	       class="inputbox span12" multiple="true">
 	</field>
 

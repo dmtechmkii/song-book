@@ -10,7 +10,6 @@ defined( '_JEXEC' ) or die; // No direct access
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.framework', true);
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 require_once JPATH_ROOT.'/components/com_songbook/helpers/route.php';
 
 $app = JFactory::getApplication();

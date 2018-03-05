@@ -82,8 +82,8 @@
 	               type="limitbox"
 		       class="inputbox input-mini"
 		       default="25"
-		       label="COM_JOOSHOP_LIST_LIMIT"
-		       description="COM_JOOSHOP_LIST_LIMIT_DESC"
+		       label="COM_SONGBOOK_LIST_LIMIT"
+		       description="COM_SONGBOOK_LIST_LIMIT_DESC"
 		       onchange="this.form.submit();"/>
 	</fields>
 </form>
