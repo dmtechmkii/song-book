@@ -124,7 +124,7 @@ class SongbookViewTag extends JViewLegacy
 
     //Get the current url, (needed in the song edit layout).
     $this->uri = JUri::getInstance();
-    $this->nowDate = JFactory::getDate('now', JFactory::getConfig()->get('offset'))->toSql(true);
+    $this->nowDate = JFactory::getDate()->toSql();
 
     // Prepare the data.
     // Compute the song slugs.

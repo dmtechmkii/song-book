@@ -358,7 +358,7 @@ class SongbookModelTag extends JModelList
     if($this->getState('filter.publish_date')) {
       // Filter by start and end dates.
       $nullDate = $db->quote($db->getNullDate());
-      $nowDate = $db->quote(JFactory::getDate('now', JFactory::getConfig()->get('offset'))->toSql(true));
+      $nowDate = $db->quote(JFactory::getDate()->toSql());
 
       $query->where('(s.publish_up = '.$nullDate.' OR s.publish_up <= '.$nowDate.')')
 	    ->where('(s.publish_down = '.$nullDate.' OR s.publish_down >= '.$nowDate.')');
@@ -512,7 +512,7 @@ class SongbookModelTag extends JModelList
 	if($this->getState('filter.publish_date')) {
 	  // Filter by start and end dates.
 	  $nullDate = $db->quote($db->getNullDate());
-	  $nowDate = $db->quote(JFactory::getDate('now', JFactory::getConfig()->get('offset'))->toSql(true));
+	  $nowDate = $db->quote(JFactory::getDate()->toSql());
 
 	  $query->where('(s.publish_up = '.$nullDate.' OR s.publish_up <= '.$nowDate.')')
 		->where('(s.publish_down = '.$nullDate.' OR s.publish_down >= '.$nowDate.')');

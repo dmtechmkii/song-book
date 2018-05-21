@@ -20,10 +20,10 @@ class SongbookControllerSong extends JControllerForm
     //Get the jform data.
     //$data = $this->input->post->get('jform', array(), 'array');
 
-    //Get current date and time (equal to NOW() in SQL).
-    //$now = JFactory::getDate('now', JFactory::getConfig()->get('offset'))->toSql(true);
+    //Gets the current date and time (UTC).
+    //$now = JFactory::getDate()->toSql();
 
-    //Reset the jform data array 
+    //Saves the modified jform data array 
     //$this->input->post->set('jform', $data);
 
     //Hand over to the parent function.
