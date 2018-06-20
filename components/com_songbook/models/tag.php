@@ -563,6 +563,37 @@ class SongbookModelTag extends JModelList
 
     return true;
   }
+
+
+  /**
+   * Returns song title suggestions for a given search request.
+   *
+   * @param   string $search 	The request search to get the matching title suggestions.
+   * @param   int  $pk  	Optional primary key of the current tag.
+   *
+   * @return  mixed		An array of suggestion results.
+   *
+   */
+  public function getAutocompleteSuggestions($search, $pk = 0)
+  {
+    $pk = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
+    $results = array();
+
+    $db = $this->getDbo();
+    $query = $db->getQuery(true);
+    $query->select('s.title AS value, s.id AS data')
+	  ->from('#__songbook_song AS s')
+	  ->join('LEFT', '#__songbook_song_tag_map AS tm ON s.id=tm.song_id')
+	  ->where('tm.tag_id='.(int)$pk)
+	  ->where('s.published=1')
+	  ->where('s.title LIKE '.$db->Quote($search.'%'))
+	  ->order('s.title DESC');
+    $db->setQuery($query);
+    //Requested to get the JQuery autocomplete working properly.
+    $results['suggestions'] = $db->loadAssocList();
+
+    return $results;
+  }
 }
 
 

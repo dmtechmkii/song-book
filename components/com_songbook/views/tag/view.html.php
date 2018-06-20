@@ -219,7 +219,7 @@ class SongbookViewTag extends JViewLegacy
 
     $this->prepareDocument();
 
-    //$this->setDocument();
+    $this->setDocument();
 
     return parent::display($tpl);
   }
@@ -305,7 +305,7 @@ class SongbookViewTag extends JViewLegacy
   protected function setDocument() 
   {
     //Include css file (if needed).
-    //$doc = JFactory::getDocument();
-    //$doc->addStyleSheet(JURI::base().'components/com_songbook/css/songbook.css');
+    $doc = JFactory::getDocument();
+    $doc->addStyleSheet(JURI::base().'components/com_songbook/css/songbook.css');
   }
 }
