@@ -118,6 +118,7 @@ var songbook = {
 
     <input type="hidden" name="limitstart" value="" />
     <input type="hidden" id="token" name="<?php echo JSession::getFormToken(); ?>" value="1" />
+    <input type="hidden" id="tag-id" name="tag_id" value="<?php echo $this->tag->id; ?>" />
     <input type="hidden" name="task" value="" />
   </form>
 </div><!-- list -->

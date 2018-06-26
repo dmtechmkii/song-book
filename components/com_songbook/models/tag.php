@@ -568,13 +568,13 @@ class SongbookModelTag extends JModelList
   /**
    * Returns song title suggestions for a given search request.
    *
-   * @param   string $search 	The request search to get the matching title suggestions.
    * @param   int  $pk  	Optional primary key of the current tag.
+   * @param   string $search 	The request search to get the matching title suggestions.
    *
    * @return  mixed		An array of suggestion results.
    *
    */
-  public function getAutocompleteSuggestions($search, $pk = 0)
+  public function getAutocompleteSuggestions($pk = null, $search)
   {
     $pk = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
     $results = array();

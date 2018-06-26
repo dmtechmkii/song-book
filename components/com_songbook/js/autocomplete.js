@@ -5,13 +5,14 @@
   $(window).load(function() {
     //Gets the token's name as value.
     var token = $('#token').attr('name');
+    var tagId = $('#tag-id').val();
 
     //Runs the JQuery autocomplete.
     $('#filter-search').devbridgeAutocomplete({
       minChars: 2,
       lookup: function (query, done) {
 	//Calls the ajax function of the component global controller.
-	var urlQuery = {[token]:1, 'task':'ajax', 'format':'json', 'search':query};
+	var urlQuery = {[token]:1, 'task':'ajax', 'format':'json', 'tag_id':tagId, 'search':query};
 	$.ajax({
 	    type: 'GET', 
 	    //url: '', 
