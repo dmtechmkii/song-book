@@ -217,6 +217,10 @@ class SongbookViewTag extends JViewLegacy
     //Set the filter_ordering parameter for the layout.
     $this->filter_ordering = $this->state->get('list.filter_ordering');
 
+    // Creates a new JForm object
+    $this->filterForm = new JForm('FilterForm');
+    $this->filterForm->loadFile(JPATH_SITE.'/components/com_songbook/models/forms/filter_category.xml');
+
     $this->prepareDocument();
 
     $this->setDocument();

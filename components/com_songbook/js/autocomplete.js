@@ -8,7 +8,7 @@
     var tagId = $('#tag-id').val();
 
     //Runs the JQuery autocomplete.
-    $('#filter-search').devbridgeAutocomplete({
+    $('#filter_search').devbridgeAutocomplete({
       minChars: 2,
       lookup: function (query, done) {
 	//Calls the ajax function of the component global controller.

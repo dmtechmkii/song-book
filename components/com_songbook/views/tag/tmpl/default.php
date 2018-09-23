@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 <script type="text/javascript">
 var songbook = {
   clearSearch: function() {
-    document.getElementById('filter-search').value = '';
+    document.getElementById('filter_search').value = '';
     songbook.submitForm();
   },
 
@@ -53,38 +53,43 @@ var songbook = {
 
   <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="siteForm" id="siteForm">
 
-    <?php if($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit') || $this->params->get('filter_ordering')) : ?>
+  <?php if($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit') || $this->params->get('filter_ordering'))
+: ?>
     <div class="songbook-toolbar clearfix">
-      <?php if ($this->params->get('filter_field') != 'hide') :?>
-	<div class="btn-group input-append span6">
-	  <label class="filter-search-lbl element-invisible" for="filter-search">
-	    <?php echo JText::_('COM_SONGBOOK_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?>
-	  </label>
-	  <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
-		  class="inputbox" title="<?php echo JText::_('COM_SONGBOOK_FILTER_SEARCH_DESC'); ?>"
-		  placeholder="<?php echo JText::_('COM_SONGBOOK_'.$this->params->get('filter_field').'_FILTER_LABEL'); ?>" />
+    <?php
+            //Gets the filter fields.
+	    $fieldset = $this->filterForm->getFieldset('filter');
 
-	  <button type="submit" onclick="songbook.submitForm();" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-		  <i class="icon-search"></i>
-	  </button>
-	  <button type="button" class="btn hasTooltip js-stools-btn-clear" onclick="songbook.clearSearch();"
-		  title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
-		  <?php echo JText::_('JSEARCH_FILTER_CLEAR');?>
-	  </button>
-	</div>
-      <?php endif; ?>
-     
-      <?php echo JLayoutHelper::render('tag.filter_ordering', $this); ?>
+	    //Loops through the fields.
+	    foreach($fieldset as $field) {
+	      $filterName = $field->getAttribute('name');
 
-      <?php if($this->params->get('show_pagination_limit')) : ?>
-	<div class="span1">
-	  <label for="limit" class="element-invisible"><?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?></label>
-	    <?php echo JLayoutHelper::render('tag.limitbox', array('limit_range' => $this->params->get('display_num'),
-							       'current_limit' => $this->state->get('list.limit'))); ?>
-	</div>
-      <?php endif; ?>
+	      if($filterName == 'filter_search' && $this->params->get('filter_field') != 'hide') { ?>
+		<div class="btn-group input-append span6">
+	      <?php
+		    $hint = JText::_('COM_SONGBOOK_'.$this->params->get('filter_field').'_FILTER_LABEL');
+		    $this->filterForm->setFieldAttribute($filterName, 'hint', $hint); 
+		    //Displays only the input tag (without the div around).
+		    echo $this->filterForm->getInput($filterName, null, $this->state->get('list.'.$filterName));
+		    //Adds the search and clear buttons.  ?>
+		<button type="submit" onclick="songbook.submitForm();" class="btn hasTooltip"
+			title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+		    <i class="icon-search"></i></button>
 
-    </div>
+		<button type="button" onclick="songbook.clearSearch()" class="btn hasTooltip js-stools-btn-clear"
+			title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
+		    <?php echo JText::_('JSEARCH_FILTER_CLEAR');?></button>
+		</div>
+      <?php	}
+	      elseif(($filterName == 'filter_ordering' && $this->params->get('filter_ordering')) ||
+		     ($filterName == 'limit' && $this->params->get('show_pagination_limit'))) {
+		//Sets the field value to the currently selected value.
+		$field->setValue($this->state->get('list.'.$filterName));
+		echo $field->renderField(array('hiddenLabel' => true, 'class' => 'span3 songbook-filters'));
+	      }
+	    }
+     ?>
+     </div>
     <?php endif; ?>
 
     <?php if(empty($this->items)) : ?>
