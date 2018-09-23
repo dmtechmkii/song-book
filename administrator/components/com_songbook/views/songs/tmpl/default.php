@@ -214,7 +214,12 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="10"><?php echo $this->pagination->getListFooter(); ?></td>
+	  <td colspan="10">
+	     <p class="counter pull-right small">
+	       <?php echo $this->pagination->getResultsCounter(); ?>
+	     </p>
+	     <?php echo $this->pagination->getListFooter(); ?>
+	  </td>
       </tr>
       </tbody>
     </table>

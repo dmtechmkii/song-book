@@ -97,16 +97,30 @@ var songbook = {
 
     <?php if(($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
     <div class="pagination">
+	    <?php echo $this->pagination->getListFooter(); ?>
 
-	    <?php if ($this->params->def('show_pagination_results', 1)) : ?>
-		    <p class="counter pull-right">
-			    <?php echo $this->pagination->getPagesCounter(); ?>
-		    </p>
+	    <?php if ($this->params->def('show_pagination_results', 1) || $this->params->def('show_pagination_pages', 1)) : ?>
+	      <div class="songbook-results">
+		  <?php if ($this->params->def('show_pagination_results', 1)) : ?>
+		      <p class="counter pull-left small">
+			<?php echo $this->pagination->getResultsCounter(); ?>
+		      </p>
+		  <?php endif; ?>
+		  <?php if ($this->params->def('show_pagination_pages', 1)) : ?>
+		      <p class="counter pull-right small">
+			<?php echo $this->pagination->getPagesCounter(); ?>
+		      </p>
+		  <?php endif; ?>
+	      </div>
 	    <?php endif; ?>
-
-	    <?php //Load our own pagination layout. ?>
-	    <?php echo JLayoutHelper::render('tag.pagination', $this->pagination); ?>
     </div>
+    <?php endif; ?>
+
+    <?php if(!empty($this->children) && $this->tagMaxLevel != 0) : ?>
+	    <div class="cat-children">
+	      <h3><?php echo JTEXT::_('COM_SONGBOOK_SUBTAGS_TITLE'); ?></h3>
+	      <?php echo $this->loadTemplate('children'); ?>
+	    </div>
     <?php endif; ?>
 
     <?php if(!empty($this->children) && $this->tagMaxLevel != 0) : ?>

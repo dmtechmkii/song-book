@@ -34,3 +34,11 @@
   border-bottom: 1px solid #000;
 }
 
+.pagination {
+  margin-bottom: 5px !important;
+}
+
+.songbook-results {
+  overflow: hidden;
+}
+
