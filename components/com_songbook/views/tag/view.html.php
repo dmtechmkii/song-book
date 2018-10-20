@@ -219,7 +219,7 @@ class SongbookViewTag extends JViewLegacy
 
     // Creates a new JForm object
     $this->filterForm = new JForm('FilterForm');
-    $this->filterForm->loadFile(JPATH_SITE.'/components/com_songbook/models/forms/filter_category.xml');
+    $this->filterForm->loadFile(JPATH_SITE.'/components/com_songbook/models/forms/filter_tag.xml');
 
     $this->prepareDocument();
 
