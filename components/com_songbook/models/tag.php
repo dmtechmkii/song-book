@@ -123,9 +123,11 @@ class SongbookModelTag extends JModelList
     $this->setState('list.start', $limitstart);
 
     // Optional filter text
-    $this->setState('list.filter_search', $app->input->getString('filter_search'));
-    //Get the value of the select list and load it in the session.
-    $this->setState('list.filter_ordering', $app->input->getString('filter_ordering'));
+    $filterSearch = $this->getUserStateFromRequest($this->context.'.list.filter_search', 'filter_search');
+    $this->setState('list.filter_search', $filterSearch);
+    // Filter.order
+    $filterOrdering = $this->getUserStateFromRequest($this->context.'.list.filter_ordering', 'filter_ordering');
+    $this->setState('list.filter_ordering', $filterOrdering);
 
     //Check if the user is root. 
     $user = JFactory::getUser();
@@ -370,12 +372,12 @@ class SongbookModelTag extends JModelList
     }
 
     // Filter by search in title
-    $search = $this->getState('list.filter_search');
+    $filterSearch = $this->getState('list.filter_search');
     //Get the field to search by.
     $field = $this->getState('params')->get('filter_field');
-    if(!empty($search)) {
-      $search = $db->quote('%'.$db->escape($search, true).'%');
-      $query->where('(s.'.$field.' LIKE '.$search.')');
+    if(!empty($filterSearch)) {
+      $filterSearch = $db->quote('%'.$db->escape($filterSearch, true).'%');
+      $query->where('(s.'.$field.' LIKE '.$filterSearch.')');
     }
 
     //Get the songs ordering by default set in the menu options. (Note: sec stands for secondary). 
