@@ -136,21 +136,8 @@ class SongbookViewTag extends JViewLegacy
 	$item->publish_up = $this->nowDate;
       }
 
-      //Gets all the tag ids linked to the item.
-      $tagIds = array();
-      foreach($item->tags->itemTags as $itemTag) {
-	//Note: Do not include the tag id matching the main tag id.
-	if($itemTag->published == 1 && $itemTag->id != $item->main_tag_id) {
-	  $tagIds[] = $itemTag->id;
-	}
-      }
-
-      //Add the main tag id to the beginning of the id array.
-      if($item->main_tag_id) {
-	array_unshift($tagIds, $item->main_tag_id);
-      }
-
-      $item->tag_ids = $tagIds;
+      //For compatibility reasons the main tag id has to be passed through an array.
+      $item->tagid = array($item->main_tag_id);
     }
 
     // Check for layout override only if this is not the active menu item

@@ -211,12 +211,10 @@ class SongbookRouter extends JComponentRouterView
     if($this->noIDs) {
       $db = JFactory::getDbo();
       $dbquery = $db->getQuery(true);
-      $dbquery->select('s.id')
-	      ->from($dbquery->qn('#__songbook_song').' AS s')
-	      ->join('INNER', '#__songbook_song_tag_map AS tm ON s.id=tm.song_id')
-	      ->where('s.alias='.$dbquery->q($segment))
-	      ->where('tm.tag_id='.$dbquery->q($query['id']))
-	      ->where('tm.main_tag_id=s.main_tag_id');
+      $dbquery->select('id')
+	      ->from($dbquery->qn('#__songbook_song'))
+	      //Note: Alias is unique for each item.
+	      ->where('alias='.$dbquery->q($segment));
 
       $db->setQuery($dbquery);
 

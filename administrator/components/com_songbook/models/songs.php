@@ -147,6 +147,10 @@ class SongbookModelSongs extends JModelList
       if(stripos($search, 'id:') === 0) {
 	$query->where('s.id = '.(int) substr($search, 3));
       }
+      elseif(stripos($search, 'al:') === 0) { //Searches by alias
+	$search = $db->Quote('%'.$db->escape(substr($search, 3), true).'%');
+	$query->where('(s.alias LIKE '.$search.')');
+      }
       else {
 	$search = $db->Quote('%'.$db->escape($search, true).'%');
 	$query->where('(s.title LIKE '.$search.')');

@@ -20,7 +20,7 @@ $nowDate = $displayData['now_date'];
     <?php if($params->get('show_title')) : ?>
 	    <h2>
 	      <?php if($params->get('link_title') && $params->get('access-view')) :
-		      $link = JRoute::_(SongbookHelperRoute::getSongRoute($item->slug, $item->tag_ids, $item->language));
+		      $link = JRoute::_(SongbookHelperRoute::getSongRoute($item->slug, $item->tagid, $item->language));
 	      ?>
 		<a href="<?php echo $link; ?>">
 		      <?php echo $this->escape($item->title); ?></a>

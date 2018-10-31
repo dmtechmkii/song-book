@@ -124,29 +124,25 @@ class SongbookTableSong extends JTable
       $this->alias = JFilterOutput::stringURLSafe($this->title);
     }
 
-    // Verify that the alias is unique against the song category.
+    // Verify that the alias is unique.
     $table = JTable::getInstance('Song', 'SongbookTable', array('dbo', $this->getDbo()));
 
-    if($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
-      $this->setError(JText::_('COM_SONGBOOK_DATABASE_ERROR_SONG_UNIQUE_ALIAS'));
+    if($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0)) {
+      $this->setError(JText::sprintf('COM_SONGBOOK_DATABASE_ERROR_SONG_UNIQUE_ALIAS', $this->alias));
       return false;
     }
 
-    //Check we have tags before checking alias.
+    //Check we have tags before setting the main tag id.
     if(isset($this->newTags)) {
       //Creating tags on the fly is not allowed in our component.
       SongbookHelper::removeTagsOnTheFly($this->newTags);
+      $this->newTags = $this->cleanNewTags($this->newTags);
 
       if(!empty($this->newTags)) {
 	//Check that the selected main tag is still part of the current tags.
 	if(!in_array($this->main_tag_id, $this->newTags)) {
 	  //By default set the first current tag as the main tag.
 	  $this->main_tag_id = reset($this->newTags);
-	}
-
-	if($table->load(array('alias' => $this->alias, 'main_tag_id' => $this->main_tag_id)) && ($table->id != $this->id || $this->id == 0)) {
-	  $this->setError(JText::_('COM_SONGBOOK_DATABASE_ERROR_SONG_MAIN_TAG_UNIQUE_ALIAS'));
-	  return false;
 	}
       }
     }
@@ -155,6 +151,44 @@ class SongbookTableSong extends JTable
     }
 
     return parent::store($updateNulls);
+  }
+
+
+  /**
+   * Checks that meanwhile none of the new selected tags has been archived or trashed from
+   * the com_tags component. If so, the tag is removed from the tag array.
+   *
+   * @param   mixed  $array   An array filled with the new tag ids or null if the array is empty.
+   *
+   * @return  mixed           The cleaned tag array or null if the array is empty.
+   */
+  protected function cleanNewTags($newTags)
+  {
+    if($newTags === null) {
+      return $newTags;
+    }
+
+    $query = $this->_db->getQuery(true)
+	    ->select($this->_db->quoteName('id'))
+	    ->from($this->_db->quoteName('#__tags'))
+	    ->where($this->_db->quoteName('published').' NOT IN(2, -2)')
+	    ->where($this->_db->quoteName('id').' IN('.implode(',', $newTags).')');
+    $this->_db->setQuery($query);
+    $tagIds = $this->_db->loadColumn();
+
+    foreach($newTags as $key => $tagId) {
+      if(!in_array($tagId, $tagIds)) {
+	//Remove the new tag from the tag data.
+	unset($newTags[$key]);
+      }
+    }
+
+    //Don't return an empty array. Return null instead.
+    if(empty($newTags)) {
+      return null;
+    }
+
+    return $newTags;
   }
 
 

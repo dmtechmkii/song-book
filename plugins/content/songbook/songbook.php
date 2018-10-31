@@ -15,6 +15,24 @@ require_once JPATH_ROOT.'/administrator/components/com_songbook/helpers/songbook
 
 class plgContentSongbook extends JPlugin
 {
+  /**
+   * Constructor.
+   *
+   * @param   object  &$subject  The object to observe
+   * @param   array   $config    An optional associative array of configuration settings.
+   *
+   * @since   3.7.0
+   */
+  public function __construct(&$subject, $config)
+  {
+    //Loads the component language.
+    $lang = JFactory::getLanguage();
+    $langTag = $lang->getTag();
+    $lang->load('com_songbook', JPATH_ROOT.'/administrator/components/com_songbook', $langTag);
+
+    parent::__construct($subject, $config);
+  }
+
 
   public function onContentBeforeSave($context, $data, $isNew)
   {
@@ -32,13 +50,29 @@ class plgContentSongbook extends JPlugin
 
   public function onContentBeforeDelete($context, $data)
   {
+    if($context == 'com_tags.tag') {
+      //Ensures that the deleted tag is not used as main tag by one or more songs.
+      if(!SongbookHelper::checkMainTags(array($data->id))) {
+	return false;
+      }
+      else {
+	$db = JFactory::getDbo();
+	$query = $db->getQuery(true);
+
+	//Delete all the rows linked to the tag id. 
+	$query->delete('#__songbook_song_tag_map')
+	      ->where('tag_id='.(int)$data->id);
+	$db->setQuery($query);
+	$db->query();
+      }
+    }
+
     return true;
   }
 
 
   //Since the id of a new item is not known before being saved, the code which
   //links item ids to other item ids should be placed here.
-
   public function onContentAfterSave($context, $data, $isNew)
   {
     //Filter the sent event.
@@ -71,6 +105,14 @@ class plgContentSongbook extends JPlugin
       return;
     }
     elseif($context == 'com_tags.tag') {
+      $db = JFactory::getDbo();
+      $query = $db->getQuery(true);
+
+      //Delete all the rows linked to the item id. 
+      $query->delete('#__songbook_song_tag_map')
+	    ->where('tag_id='.(int)$data->id);
+      $db->setQuery($query);
+      $db->query();
 
       return;
     }
@@ -113,9 +155,11 @@ class plgContentSongbook extends JPlugin
     //Check we have tags before treating data.
     if(isset($data->newTags)) {
       //Retrieve all the rows matching the item id.
-      $query->select('song_id, tag_id, main_tag_id, IFNULL(ordering, "NULL") AS ordering')
-	    ->from('#__songbook_song_tag_map')
-	    ->where('song_id='.(int)$data->id);
+      $query->select('m.song_id, m.tag_id, IFNULL(m.ordering, "NULL") AS ordering')
+	    ->from('#__songbook_song_tag_map AS m')
+	    //Inner in case meanwhile a tag has been deleted.
+	    ->join('INNER', '#__tags AS t ON t.id=m.tag_id')
+	    ->where('m.song_id='.(int)$data->id);
       $db->setQuery($query);
       $tags = $db->loadObjectList();
       $values = array();
@@ -126,14 +170,14 @@ class plgContentSongbook extends JPlugin
 	//they match those newly selected.
 	foreach($tags as $tag) {
 	  if($tag->tag_id == $tagId) {
-	    $values[] = $tag->song_id.','.$tag->tag_id.','.$data->main_tag_id.','.$tag->ordering;
+	    $values[] = $tag->song_id.','.$tag->tag_id.','.$tag->ordering;
 	    $newTag = false; 
 	    break;
 	  }
 	}
 
 	if($newTag) {
-	  $values[] = $data->id.','.$tagId.','.$data->main_tag_id.',NULL';
+	  $values[] = $data->id.','.$tagId.',NULL';
 	}
       }
 
@@ -144,7 +188,7 @@ class plgContentSongbook extends JPlugin
       $db->setQuery($query);
       $db->query();
 
-      $columns = array('song_id', 'tag_id', 'main_tag_id', 'ordering');
+      $columns = array('song_id', 'tag_id', 'ordering');
       //Insert a new row for each tag linked to the item.
       $query->clear();
       $query->insert('#__songbook_song_tag_map')
