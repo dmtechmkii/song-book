@@ -29,6 +29,7 @@ class SongbookModelSongs extends JModelList
 				       'language', 's.language',
 				       'hits', 's.hits',
 				       'catid', 's.catid', 'category_id',
+				       's.main_tag_id', 'main_tag_id',
 				       'tag'
 				      );
     }
@@ -70,6 +71,9 @@ class SongbookModelSongs extends JModelList
     $tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag');
     $this->setState('filter.tag', $tag);
 
+    $mainTagId = $this->getUserStateFromRequest($this->context . '.filter.main_tag_id', 'filter_main_tag_id');
+    $this->setState('filter.main_tag_id', $mainTagId);
+
     // List state information.
     parent::populateState('s.title', 'asc');
 
@@ -93,6 +97,7 @@ class SongbookModelSongs extends JModelList
     $id .= ':'.$this->getState('filter.category_id');
     $id .= ':'.$this->getState('filter.language');
     $id .= ':'.$this->getState('filter.tag');
+    $id .= ':'.$this->getState('filter.main_tag_id');
 
     return parent::getStoreId($id);
   }
@@ -107,7 +112,7 @@ class SongbookModelSongs extends JModelList
 
     // Select the required fields from the table.
     $query->select($this->getState('list.select', 's.id,s.title,s.alias,s.created,s.published,s.catid,s.hits,'.
-				   's.access,s.ordering,s.created_by,s.checked_out,s.checked_out_time,s.language'))
+				   's.main_tag_id, s.access,s.ordering,s.created_by,s.checked_out,s.checked_out_time,s.language'))
 	  ->from('#__songbook_song AS s');
 
     //Get the user name.
@@ -121,6 +126,10 @@ class SongbookModelSongs extends JModelList
     // Join over the categories.
     $query->select('ca.title AS category_title')
 	  ->join('LEFT', '#__categories AS ca ON ca.id = s.catid');
+
+    // Join over the main tags.
+    $query->select('t.title AS main_tag_title')
+	  ->join('LEFT', '#__tags AS t ON t.id = s.main_tag_id');
 
     // Join over the language
     $query->select('lg.title AS language_title')
@@ -198,6 +207,11 @@ class SongbookModelSongs extends JModelList
 	    ->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap').
 		   ' ON '.$db->quoteName('tagmap.content_item_id').' = '.$db->quoteName('s.id').
 		   ' AND '.$db->quoteName('tagmap.type_alias').' = '.$db->quote('com_songbook.song'));
+    }
+
+    // Filter by main tag.
+    if($mainTagId = $this->getState('filter.main_tag_id')) {
+      $query->where('s.main_tag_id= '.(int)$mainTagId);
     }
 
     //Add the list to the sort.
