@@ -1,15 +1,15 @@
 <?php
 /**
  * @package Song Book
- * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
+ * @copyright Copyright (c) 2016 - 2019 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
-
 
 //Note: Override some parent form methods (libraries/legacy/controllers/form.php).
 //      See the file for more details.
 
-defined('_JEXEC') or die;
+defined('_JEXEC') or die('Restricted access');
+
 
 /**
  * @package     Joomla.Site

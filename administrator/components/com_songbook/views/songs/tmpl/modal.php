@@ -1,12 +1,12 @@
 <?php
 /**
  * @package Song Book
- * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
+ * @copyright Copyright (c) 2016 - 2019 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 
+defined('_JEXEC') or die('Restricted access'); // No direct access
 
-defined( '_JEXEC' ) or die; // No direct access
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.framework', true);
 JHtml::_('formbehavior.chosen', 'select');

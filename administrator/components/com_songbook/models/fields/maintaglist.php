@@ -1,18 +1,17 @@
 <?php
 /**
  * @package Song Book
- * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
+ * @copyright Copyright (c) 2016 - 2019 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 
-
-defined('_JEXEC') or die;
+defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Form\Field\TagField;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
-FormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('list');
 
 //Script which build the select list containing the tags used as main tag by song items.
 //The unused tags in the list are disabled.

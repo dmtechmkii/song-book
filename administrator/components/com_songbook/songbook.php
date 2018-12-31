@@ -1,12 +1,11 @@
 <?php
 /**
  * @package Song Book 
- * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
+ * @copyright Copyright (c) 2016 - 2019 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 
-// No direct access.
-defined('_JEXEC') or die; 
+defined('_JEXEC') or die('Restricted access'); // No direct access.
 //Allows to keep the tab state identical in edit form after saving.
 JHtml::_('behavior.tabstate');
 
@@ -15,9 +14,6 @@ if(!JFactory::getUser()->authorise('core.manage', 'com_songbook')) {
   JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
   return false;
 }
-
-// Include dependancies
-jimport('joomla.application.component.controller');
 
 $controller = JControllerLegacy::getInstance('Songbook');
 

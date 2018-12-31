@@ -1,18 +1,11 @@
 <?php
 /**
  * @package Song Book
- * @copyright Copyright (c) 2016 - 2018 Lucas Sanner
+ * @copyright Copyright (c) 2016 - 2019 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 
-
-defined('_JEXEC') or die;
-
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
-// import the list field type
-jimport('joomla.form.helper');
-JFormHelper::loadFieldClass('list');
+defined('_JEXEC') or die('Restricted access');
 
 
 //Script which build the select list containing the available tags.

@@ -1,20 +1,19 @@
 <?php
 /**
  * @package Song Book
- * @copyright Copyright (c)2016 - 2018 Lucas Sanner
+ * @copyright Copyright (c)2016 - 2019 Lucas Sanner
  * @license GNU General Public License version 3, or later
  */
 
+defined('_JEXEC') or die('Restricted access'); // No direct access
 
-// No direct access
-defined('_JEXEC') or die('Restricted access');
-// Import the JPlugin class
-jimport('joomla.plugin.plugin');
 require_once JPATH_ROOT.'/administrator/components/com_songbook/helpers/songbook.php';
 
 
 class plgContentSongbook extends JPlugin
 {
+  protected $post;
+
   /**
    * Constructor.
    *
@@ -29,6 +28,8 @@ class plgContentSongbook extends JPlugin
     $lang = JFactory::getLanguage();
     $langTag = $lang->getTag();
     $lang->load('com_songbook', JPATH_ROOT.'/administrator/components/com_songbook', $langTag);
+    //Get the POST data.
+    $this->post = JFactory::getApplication()->input->post->getArray();
 
     parent::__construct($subject, $config);
   }
@@ -63,7 +64,7 @@ class plgContentSongbook extends JPlugin
 	$query->delete('#__songbook_song_tag_map')
 	      ->where('tag_id='.(int)$data->id);
 	$db->setQuery($query);
-	$db->query();
+	$db->execute();
       }
     }
 
@@ -100,7 +101,7 @@ class plgContentSongbook extends JPlugin
       $query->delete('#__songbook_song_tag_map')
 	    ->where('song_id='.(int)$data->id);
       $db->setQuery($query);
-      $db->query();
+      $db->execute();
 
       return;
     }
@@ -112,7 +113,7 @@ class plgContentSongbook extends JPlugin
       $query->delete('#__songbook_song_tag_map')
 	    ->where('tag_id='.(int)$data->id);
       $db->setQuery($query);
-      $db->query();
+      $db->execute();
 
       return;
     }
@@ -186,7 +187,7 @@ class plgContentSongbook extends JPlugin
       $query->delete('#__songbook_song_tag_map')
 	    ->where('song_id='.(int)$data->id);
       $db->setQuery($query);
-      $db->query();
+      $db->execute();
 
       $columns = array('song_id', 'tag_id', 'ordering');
       //Insert a new row for each tag linked to the item.
@@ -195,14 +196,14 @@ class plgContentSongbook extends JPlugin
 	    ->columns($columns)
 	    ->values($values);
       $db->setQuery($query);
-      $db->query();
+      $db->execute();
     }
     else { //No tags selected or tags removed.
       //Delete all the rows matching the item id.
       $query->delete('#__songbook_song_tag_map')
 	    ->where('song_id='.(int)$data->id);
       $db->setQuery($query);
-      $db->query();
+      $db->execute();
     }
 
     return;
