@@ -82,7 +82,7 @@ class TagsControllerTags extends JControllerAdmin
 
 	  if(!empty($cid)) {
 	    //Includes the Songbook helper class.
-	    require_once JPATH_ADMINISTRATOR.'/components/com_songbook/helpers/songbook.php';
+	    JLoader::register('SongbookHelper', JPATH_ADMINISTRATOR.'/components/com_songbook/helpers/songbook.php');
 
 	    if(($task == 'trash' || $task == 'archive') && !SongbookHelper::checkMainTags($cid)) {
 	      $this->setRedirect(JRoute::_('index.php?option=com_tags&view=tags', false));

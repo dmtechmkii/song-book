@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die('Restricted access'); // No direct access
 
-require_once JPATH_ROOT.'/administrator/components/com_songbook/helpers/songbook.php';
+JLoader::register('SongbookHelper', JPATH_ADMINISTRATOR.'/components/com_songbook/helpers/songbook.php');
 
 
 class plgContentSongbook extends JPlugin

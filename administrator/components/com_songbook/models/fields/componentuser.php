@@ -8,7 +8,6 @@
 defined('JPATH_BASE') or die('Restricted access');
 
 JFormHelper::loadFieldClass('list');
-require_once __DIR__.'/../../helpers/songbook.php';
 
 
 class JFormFieldComponentuser extends JFormFieldList

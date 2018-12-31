@@ -88,7 +88,7 @@ class TagsControllerTag extends JControllerForm
 	  //Get the jform data.
 	  $data = $this->input->post->get('jform', array(), 'array');
 	  //Includes the Songbook helper class.
-	  require_once JPATH_ADMINISTRATOR.'/components/com_songbook/helpers/songbook.php';
+	  JLoader::register('SongbookHelper', JPATH_ADMINISTRATOR.'/components/com_songbook/helpers/songbook.php');
 
 	  if((int)$data['id'] && ($data['published'] == 2 || $data['published'] == -2) &&
 	     !SongbookHelper::checkMainTags(array($data['id']))) {

@@ -7,8 +7,6 @@
 
 defined('_JEXEC') or die('Restricted access'); // No direct access to this file.
 
-require_once JPATH_ADMINISTRATOR.'/components/com_songbook/helpers/songbook.php';
-
 
 class SongbookModelSong extends JModelAdmin
 {

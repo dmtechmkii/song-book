@@ -7,12 +7,8 @@
 
 defined('_JEXEC') or die('Restricted access'); // No direct access
 
- 
-// import Joomla table library
-jimport('joomla.database.table');
-require_once JPATH_ROOT.'/administrator/components/com_songbook/helpers/songbook.php';
- 
 use Joomla\Registry\Registry;
+
 
 /**
  * Song table class
