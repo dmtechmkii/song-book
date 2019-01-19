@@ -23,7 +23,7 @@ class SongbookControllerSong extends JControllerForm
     //$this->input->post->set('jform', $data);
 
     //Hand over to the parent function.
-    return parent::save($key = null, $urlVar = null);
+    return parent::save($key, $urlVar);
   }
 
 
@@ -51,7 +51,7 @@ class SongbookControllerSong extends JControllerForm
     }
 
     //Hand over to the parent function.
-    return parent::allowEdit($data = array(), $key = 'id');
+    return parent::allowEdit($data, $key);
   }
 }
 

@@ -96,6 +96,6 @@ class TagsControllerTag extends JControllerForm
 	    return false;
 	  }
 
-	  return parent::save($key = null, $urlVar = null);
+	  return parent::save($key, $urlVar);
 	}
 }
