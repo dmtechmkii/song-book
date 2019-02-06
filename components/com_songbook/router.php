@@ -6,7 +6,8 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-require_once('helpers/route.php');
+
+JLoader::register('SongbookHelperRoute', JPATH_SITE.'/components/com_songbook/helpers/route.php');
 
 
 /**

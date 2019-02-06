@@ -7,8 +7,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_SITE.'/helpers/route.php';
-
 
 /**
  * HTML View class for the Song Book component.

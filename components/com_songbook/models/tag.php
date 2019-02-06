@@ -7,7 +7,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT_SITE.'/helpers/query.php';
 
 /**
  * Song Book Component Model

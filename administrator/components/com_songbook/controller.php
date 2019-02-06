@@ -12,9 +12,6 @@ class SongbookController extends JControllerLegacy
 {
   public function display($cachable = false, $urlparams = false) 
   {
-    //Loads the component helper class.
-    JLoader::register('SongbookHelper', JPATH_ADMINISTRATOR.'/components/com_songbook/helpers/songbook.php');
-
     //Display the submenu.
     SongbookHelper::addSubmenu($this->input->get('view', 'songs'));
 
